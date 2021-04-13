@@ -1,6 +1,6 @@
 #!/bin/bash
 
-AGENT_PATH=/opt/nezha/confagent
+AGENT_PATH=/opt/nezha/nz-agent
 
 if [ 2 -eq $1 ];then
 	
@@ -8,16 +8,16 @@ if [ 2 -eq $1 ];then
 		exit 0
 	fi
 	
-	systemctl stop confagent
+	systemctl stop nz-agent
 	
-	TMP_PATH=/tmp/nezha/confagent
+	TMP_PATH=/tmp/nezha/nz-agent
 	rm -rf $TMP_PATH
 
 	mkdir -p $TMP_PATH
 	cp -rf $AGENT_PATH/config $TMP_PATH
 	echo 'backup config file from '${AGENT_PATH}
 	
-	if [ 0 -lt $(rpm -aq confagent|wc -w) ];then
+	if [ 0 -lt $(rpm -aq nz-agent|wc -w) ];then
 		echo 'clean before install...'
 		rm -rf $AGENT_PATH
 	fi

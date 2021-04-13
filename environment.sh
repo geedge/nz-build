@@ -4,7 +4,7 @@ export WEB_PACKAGE_NAME='nz-web'
 #web 打包的版本
 export WEB_PACKAGE_VERSION='2.0.0'
 #agent 打包名称
-export AGENT_PACKAGE_NAME='confagent'
+export AGENT_PACKAGE_NAME='nz-agent'
 #agent打包版本
 export AGENT_PACKAGE_VERSION='2.0'
 
@@ -31,12 +31,12 @@ export AGENT_URL='git@git.mesalab.cn:nezha/confagent.git'
 #拉取的源代码的根路径
 export GUI_WORK_PATH=${SOURCE_PATH}/nezha-fronted/nezha-fronted
 export WEB_WORK_PATH=${SOURCE_PATH}/nz-web
-export AGENT_WORK_PATH=${SOURCE_PATH}/confagent
+export AGENT_WORK_PATH=${SOURCE_PATH}/nz-agent
 
 #构建rpm包的虚拟路径，每次打包之前需要保证目录纯净
 export RPM_WORK_PATH=${CUR_PATH}/build
 export RPM_WEB_PATH=${RPM_WORK_PATH}/nz-web/opt/nezha/nz-web/
-export RPM_AGENT_PATH=${RPM_WORK_PATH}/confagent/opt/nezha/confagent/
+export RPM_AGENT_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/nz-agent/
 
 #准备git
 if [ 1 -eq `/usr/bin/which /usr/bin/git >> /dev/null;echo $?` ];then

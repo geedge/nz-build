@@ -2,14 +2,14 @@
 
 # install
 if [ 1 -eq $1 ];then
-  cat > /usr/lib/systemd/system/confagent.service <<"EOF"
+  cat > /usr/lib/systemd/system/nz-agent.service <<"EOF"
 [Unit]
-Description=confagent
+Description=nz-agent
 After=network.target
 [Service]
-WorkingDirectory=/opt/nezha/confagent
-ExecStart=/usr/bin/nohup /opt/nezha/confagent/xjar ${JAVA_HOME}/bin/java -Dconfagent.dir=/opt/nezha/confagent -jar /opt/nezha/confagent/confagent.xjar &
-ExecStop=/usr/bin/pgrep -f confagent |xargs kill -9
+WorkingDirectory=/opt/nezha/nz-agent
+ExecStart=/usr/bin/nohup /opt/nezha/nz-agent/xjar ${JAVA_HOME}/bin/java -Dnz-agent.dir=/opt/nezha/nz-agent -jar /opt/nezha/nz-agent/nz-agent.xjar &
+ExecStop=/usr/bin/pgrep -f nz-agent |xargs kill -9
 Restart=always
 [Install]
 WantedBy=multi-user.target
@@ -20,36 +20,36 @@ EOF
 Description=prometheus
 After=network.target
 [Service]
-WorkingDirectory=/opt/nezha/confagent/prometheus
-EnvironmentFile=/opt/nezha/confagent/prometheus/config.conf
-ExecStart=/opt/nezha/confagent/prometheus/prometheus $OPTION
+WorkingDirectory=/opt/nezha/nz-agent/prometheus
+EnvironmentFile=/opt/nezha/nz-agent/prometheus/config.conf
+ExecStart=/opt/nezha/nz-agent/prometheus/prometheus $OPTION
 Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
-  cat > /opt/nezha/confagent/prometheus/config.conf <<EOF
-OPTION=" --config.file='/opt/nezha/confagent/prometheus/prometheus.yml' --web.listen-address='127.0.0.1:19090' --web.enable-admin-api --web.enable-lifecycle --storage.tsdb.retention.time=15d "
+  cat > /opt/nezha/nz-agent/prometheus/config.conf <<EOF
+OPTION=" --config.file='/opt/nezha/nz-agent/prometheus/prometheus.yml' --web.listen-address='127.0.0.1:19090' --web.enable-admin-api --web.enable-lifecycle --storage.tsdb.retention.time=15d "
 EOF
   cat > /usr/lib/systemd/system/snmp-exporter.service <<"EOF"
 [Unit]
 Description=snmp-exporter
 After=network.target
 [Service]
-EnvironmentFile=/opt/nezha/confagent/snmp_exporter/config.conf
-ExecStart=/opt/nezha/confagent/snmp_exporter/snmp_exporter $OPTION
+EnvironmentFile=/opt/nezha/nz-agent/snmp_exporter/config.conf
+ExecStart=/opt/nezha/nz-agent/snmp_exporter/snmp_exporter $OPTION
 Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
-  cat >/opt/nezha/confagent/snmp_exporter/config.conf <<EOF
-OPTION="--web.listen-address='0.0.0.0:9116' --config.file='/opt/nezha/confagent/snmp_exporter/snmp.yml' "
+  cat >/opt/nezha/nz-agent/snmp_exporter/config.conf <<EOF
+OPTION="--web.listen-address='0.0.0.0:9116' --config.file='/opt/nezha/nz-agent/snmp_exporter/snmp.yml' "
 EOF
 	systemctl daemon-reload
-	systemctl enable confagent && systemctl restart confagent
+	systemctl enable nz-agent && systemctl restart nz-agent
 	systemctl enable prometheus && systemctl restart prometheus
 	systemctl enable snmp-exporter && systemctl restart snmp-exporter
 
-	echo 'install confagent success !'
+	echo 'install nz-agent success !'
 fi
 compareMD5()
 {
@@ -72,9 +72,9 @@ compareMD5()
 # update
 if [ 2 -eq $1 ];then
 
-	AGENT_PATH=/opt/nezha/confagent
+	AGENT_PATH=/opt/nezha/nz-agent
 
-	TMP_PATH=/tmp/nezha/confagent
+	TMP_PATH=/tmp/nezha/nz-agent
 	echo 'move backup config file...'
 	if [ -d $TMP_PATH ];then
 		for i in $(ls AGENT_PATH/config);do
@@ -86,5 +86,5 @@ if [ 2 -eq $1 ];then
 			fi	
 		done	
 	fi
-	systemctl restart confagent
+	systemctl restart nz-agent
 fi
