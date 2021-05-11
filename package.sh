@@ -16,11 +16,14 @@ PACKAGE_VERSION=${WEB_PACKAGE_VERSION}
 
 cd ${SOURCE_PATH}
 
+if [[ 0 -eq ${NET_STATE} && 0 -eq ${SOURCE_FROM} ]];then
+  echo 'start clone nz-web from git clone -b '${WEB_BRANCH}' '${WEB_URL}
+  COMMIT_ID=`download_source nz-web $WEB_URL $WEB_BRANCH`
+  echo 'start clone nezha-fronted from git clone -b '${GUI_BRANCH}' '${GUI_URL}
+  COMMIT_ID=`download_source nezha-fronted $GUI_URL $GUI_BRANCH`
 
-echo 'start clone nz-web from git clone -b '${WEB_BRANCH}' '${WEB_URL}
-COMMIT_ID=`download_source nz-web $WEB_URL $WEB_BRANCH`
-echo 'start clone nezha-fronted from git clone -b '${GUI_BRANCH}' '${GUI_URL}
-COMMIT_ID=`download_source nezha-fronted $GUI_URL $GUI_BRANCH`
+  COMMIT_ID=${COMMIT_ID}"_"
+fi
 
 cd ${GUI_WORK_PATH}
 echo 'packaging nezha gui ...'
@@ -51,8 +54,6 @@ if [ 1 -eq $(ls ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/static |wc -
 	\cp -rf ${GUI_WORK_PATH}/static/Tiles ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/static
 fi
 
-cp ${CUR_PATH}/rpm/${AGENT_PACKAGE_NAME}-${AGENT_PACKAGE_VERSION}-linux.x86_64.rpm ${WEB_WORK_PATH}/nz-admin/src/main/resources/install/
-
 cd ${WEB_WORK_PATH}
 
 sudo mvn clean install -Dxjar.password=111111 -Dxjar.excludes=/db/*,/static/**/*,/install/*
@@ -71,9 +72,12 @@ go build ${WEB_WORK_PATH}/nz-admin/target/xjar.go
 
 cp ${WEB_WORK_PATH}/nz-admin/target/{nz-admin.xjar,xjar} ${RPM_WEB_PATH}
 
-cp -r ${WEB_WORK_PATH}/build_node_exporter ${RPM_WEB_PATH}
+cp ${WEB_WORK_PATH}/nz-admin/src/main/resources/install/install.sh.template ${RPM_WEB_PATH}/install/
+cp ${CUR_PATH}/rpm/${AGENT_PACKAGE_NAME}-${AGENT_PACKAGE_VERSION}-linux.x86_64.rpm ${RPM_WEB_PATH}/install/
 
-cp ${WEB_WORK_PATH}/nz-admin/src/main/resources/{application-prod.yml,application.yml,logback-spring.xml,banner.txt} ${RPM_WEB_PATH}/config
+#cp -r ${WEB_WORK_PATH}/build_node_exporter ${RPM_WEB_PATH}
+
+cp ${WEB_WORK_PATH}/nz-admin/src/main/resources/config/{nezha.properties,logback-spring.xml} ${RPM_WEB_PATH}/config
 
 cp ${CUR_PATH}/tool/tool.tar.gz ${RPM_WEB_PATH}
 cd ${RPM_WEB_PATH}
@@ -85,7 +89,7 @@ if [ -n ${COMMIT_ID} ];then
 	echo $COMMIT_ID
 fi
 
-fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${COMMIT_ID}"_linux" --rpm-os 'linux' --pre-install ${CUR_PATH}/script/web/beforeinstall.sh --post-install ${CUR_PATH}/script/web/afterinstall.sh --post-uninstall ${CUR_PATH}/script/web/afterremove.sh -C ${CUR_PATH}/build/nz-web -f -p ${CUR_PATH}/rpm
+fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${COMMIT_ID}"linux" --rpm-os 'linux' --pre-install ${CUR_PATH}/script/web/beforeinstall.sh --post-install ${CUR_PATH}/script/web/afterinstall.sh --post-uninstall ${CUR_PATH}/script/web/afterremove.sh -C ${CUR_PATH}/build/nz-web -f -p ${CUR_PATH}/rpm
 
 log 'finished'
 echo 'finished'

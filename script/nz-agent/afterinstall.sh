@@ -44,10 +44,29 @@ EOF
   cat >/opt/nezha/nz-agent/snmp_exporter/config.conf <<EOF
 OPTION="--web.listen-address='0.0.0.0:9116' --config.file='/opt/nezha/nz-agent/snmp_exporter/snmp.yml' "
 EOF
+
+
+  cat > /usr/lib/systemd/system/blackbox-exporter.service <<"EOF"
+[Unit]
+Description=blackbox_exporter
+After=network.target
+[Service]
+WorkingDirectory=/opt/nezha/nz-agent/blackbox_exporter
+EnvironmentFile=/opt/nezha/nz-agent/blackbox_exporter/config.conf
+ExecStart=/opt/nezha/nz-agent/blackbox/blackbox_exporter $OPTION
+Restart=always
+[Install]
+WantedBy=multi-user.target
+EOF
+cat >/opt/nezha/nz-agent/blackbox_exporter/config.conf <<EOF
+OPTION="--web.listen-address='127.0.0.1:9115' --config.file='/opt/nezha/nz-agent/blackbox_exporter/blackbox.yml' "
+EOF
+
 	systemctl daemon-reload
 	systemctl enable nz-agent && systemctl restart nz-agent
 	systemctl enable prometheus && systemctl restart prometheus
 	systemctl enable snmp-exporter && systemctl restart snmp-exporter
+  systemctl enable blackbox-exporter && systemctl restart blackbox-exporter
 
 	echo 'install nz-agent success !'
 fi

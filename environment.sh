@@ -1,6 +1,12 @@
 #!/bin/bash
+
+#from git 0 from local 1
+export SOURCE_FROM=1
+#0 internet 1 local
+export NET_STATE=1
+
 #web 打包的名称
-export WEB_PACKAGE_NAME='nz-web'
+export WEB_PACKAGE_NAME='nezha'
 #web 打包的版本
 export WEB_PACKAGE_VERSION='2.0.0'
 #agent 打包名称
@@ -26,7 +32,7 @@ export LOG=${CUR_PATH}/logger.log
 #下载代码的url，SSH方式
 export WEB_URL='git@git.mesalab.cn:nezha/nz-web.git'
 export GUI_URL='git@git.mesalab.cn:nezha/nezha-fronted.git'
-export AGENT_URL='git@git.mesalab.cn:nezha/confagent.git'
+export AGENT_URL='git@git.mesalab.cn:nezha/nz-agent.git'
 
 #拉取的源代码的根路径
 export GUI_WORK_PATH=${SOURCE_PATH}/nezha-fronted/nezha-fronted
@@ -38,48 +44,52 @@ export RPM_WORK_PATH=${CUR_PATH}/build
 export RPM_WEB_PATH=${RPM_WORK_PATH}/nz-web/opt/nezha/nz-web/
 export RPM_AGENT_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/nz-agent/
 
-#准备git
-if [ 1 -eq `/usr/bin/which /usr/bin/git >> /dev/null;echo $?` ];then
-  log 'start install git...'
-  yum install -y git >> $LOG
+if [[ 0 -eq ${NET_STATE} && 0 -eq ${SOURCE_FROM} ]];then
+  #准备git
+  if [ 1 -eq `/usr/bin/which /usr/bin/git >> /dev/null;echo $?` ];then
+    log 'start install git...'
+    yum install -y git >> $LOG
+  fi
 fi
-#准备maven
-if [ 1 -eq $(which mvn >/dev/null;echo $?) ];then
-        log 'start install maven...'
-        yum install -y maven >> $LOG
-        if [ 1 -eq $? ];then
-		      log 'install maven faild...exti'
-		      exit 1
-	      fi
-	      mkdir -p /root/.m2
-        mv ${CUR_PATH}/tool/repository.tar.gz /root/.m2
-        cd /root/.m2 && tar -xzf repository.tar.gz
-fi
-#准备nodejs
-if [ 1 -eq $(which npm>/dev/null;echo $?) ];then
-        log 'start install nodeJS...'
-	      curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash >> $LOG
-        sudo yum install -y nodejs >> $LOG
-        if [ 1 -eq $? ];then
-		      log 'install nodeJS faild...exti'
-		      exit 1
-	      fi
-fi
-#准备golang
-if [ 1 -eq $(which go>>/dev/null;echo $?) ];then
-	log 'missing golang envorinment...start install...'
-	yum install -y epel-release >> $LOG
-	yum install -y go >> $LOG
+if [ 0 -eq ${NET_STATE} ];then
+  #准备maven
+  if [ 1 -eq $(which mvn >/dev/null;echo $?) ];then
+          log 'start install maven...'
+          yum install -y maven >> $LOG
+          if [ 1 -eq $? ];then
+            log 'install maven faild...exti'
+            exit 1
+          fi
+          mkdir -p /root/.m2
+          mv ${CUR_PATH}/tool/repository.tar.gz /root/.m2
+          cd /root/.m2 && tar -xzf repository.tar.gz
+  fi
+  #准备nodejs
+  if [ 1 -eq $(which npm>/dev/null;echo $?) ];then
+          log 'start install nodeJS...'
+          curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash >> $LOG
+          sudo yum install -y nodejs >> $LOG
+          if [ 1 -eq $? ];then
+            log 'install nodeJS faild...exti'
+            exit 1
+          fi
+  fi
+  #准备golang
+  if [ 1 -eq $(which go>>/dev/null;echo $?) ];then
+    log 'missing golang envorinment...start install...'
+    yum install -y epel-release >> $LOG
+    yum install -y go >> $LOG
 
-	if [ 1 -eq $? ];then
-		log 'install golang faild...exti'
-		exit 1
-	fi
-fi
-#检查fpm，因fpm需要ruby > 2.3.0 需手动安装该命令
-if [ 1 -eq $(which fpm >>/dev/null;echo $?) ];then
-	echo 'there need "fpm" command,please install yourself...'
-	exit 1;
+    if [ 1 -eq $? ];then
+      log 'install golang faild...exti'
+      exit 1
+    fi
+  fi
+  #检查fpm，因fpm需要ruby > 2.3.0 需手动安装该命令
+  if [ 1 -eq $(which fpm >>/dev/null;echo $?) ];then
+    echo 'there need "fpm" command,please install yourself...'
+    exit 1;
+  fi
 fi
 
 if [ ! -d ${CUR_PATH}/rpm ];then

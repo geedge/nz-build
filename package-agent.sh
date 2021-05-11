@@ -9,8 +9,10 @@ fi
 
 cd ${SOURCE_PATH}
 
-echo 'start clone nz-agent from git clone -b '${AGENT_BRANCH}' '${AGENT_URL}
-download_source nz-agent $AGENT_URL $AGENT_BRANCH
+if [[ 0 -eq ${NET_STATE} && 0 -eq ${SOURCE_FROM} ]];then
+  echo 'start clone nz-agent from git clone -b '${AGENT_BRANCH}' '${AGENT_URL}
+  download_source nz-agent $AGENT_URL $AGENT_BRANCH
+fi
 
 echo 'packaging nz-agent ...'
 log 'packaging nz-agent ...'
@@ -23,7 +25,7 @@ if [ 1 -eq $? ];then
 	exit 1
 fi
 rm -rf ${CUR_PATH}/build/nz-agent/*
-mkdir -p ${RPM_AGENT_PATH}/{config,prometheus,snmp_exporter}
+mkdir -p ${RPM_AGENT_PATH}/{config,prometheus,snmp_exporter,blackbox_exporter}
 
 cd ${AGENT_WORK_PATH}/target
 go build ${AGENT_WORK_PATH}/target/xjar.go
@@ -33,6 +35,7 @@ cp -f ${AGENT_WORK_PATH}/src/main/resources/{application-prod.yml,application.ym
 
 tar -xzf ${CUR_PATH}/tool/prometheus-2.13.1.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/prometheus
 tar -xzf ${CUR_PATH}/tool/snmp_exporter-0.15.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/snmp_exporter
+tar -xzf ${CUR_PATH}/tool/blackbox_exporter-0.18.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/blackbox_exporter
 
 fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${COMMIT_ID}"linux" --rpm-os 'linux' --pre-install ${CUR_PATH}/script/nz-agent/beforeinstall.sh --post-install ${CUR_PATH}/script/nz-agent/afterinstall.sh --post-uninstall ${CUR_PATH}/script/nz-agent/afterremove.sh -C ${CUR_PATH}/build/nz-agent -f -p ${CUR_PATH}/rpm
 
