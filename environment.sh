@@ -8,7 +8,7 @@ export NET_STATE=1
 #web 打包的名称
 export WEB_PACKAGE_NAME='nezha'
 #web 打包的版本
-export WEB_PACKAGE_VERSION='2.0.0'
+export WEB_PACKAGE_VERSION='21.04'
 #agent 打包名称
 export AGENT_PACKAGE_NAME='nz-agent'
 #agent打包版本

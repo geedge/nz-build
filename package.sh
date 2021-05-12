@@ -89,7 +89,7 @@ if [ -n ${COMMIT_ID} ];then
 	echo $COMMIT_ID
 fi
 
-fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${COMMIT_ID}"linux" --rpm-os 'linux' --pre-install ${CUR_PATH}/script/web/beforeinstall.sh --post-install ${CUR_PATH}/script/web/afterinstall.sh --post-uninstall ${CUR_PATH}/script/web/afterremove.sh -C ${CUR_PATH}/build/nz-web -f -p ${CUR_PATH}/rpm
+fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION}  --rpm-os 'linux' --pre-install ${CUR_PATH}/script/web/beforeinstall.sh --post-install ${CUR_PATH}/script/web/afterinstall.sh --post-uninstall ${CUR_PATH}/script/web/afterremove.sh -C ${CUR_PATH}/build/nz-web -f -p ${CUR_PATH}/rpm
 
 log 'finished'
 echo 'finished'
