@@ -45,7 +45,7 @@ if [ 1 -eq $1 ];then
 	systemctl start nzweb
 	
 	echo 'install success !'
-	echo 'please open http://IP:port/#/setup in browser to complate system configuration'
+	echo 'You should see the NEZHA setup page come up by going to:http://SERVER-IP/'
 fi
 compareMD5()
 {

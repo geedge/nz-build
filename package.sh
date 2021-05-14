@@ -73,7 +73,7 @@ go build ${WEB_WORK_PATH}/nz-admin/target/xjar.go
 cp ${WEB_WORK_PATH}/nz-admin/target/{nz-admin.xjar,xjar} ${RPM_WEB_PATH}
 
 cp ${WEB_WORK_PATH}/nz-admin/src/main/resources/install/install.sh.template ${RPM_WEB_PATH}/install/
-cp ${CUR_PATH}/rpm/${AGENT_PACKAGE_NAME}-${AGENT_PACKAGE_VERSION}-linux.x86_64.rpm ${RPM_WEB_PATH}/install/
+cp ${CUR_PATH}/rpm/${AGENT_PACKAGE_NAME}-${AGENT_PACKAGE_VERSION}-0.x86_64.rpm ${RPM_WEB_PATH}/install/
 
 #cp -r ${WEB_WORK_PATH}/build_node_exporter ${RPM_WEB_PATH}
 
@@ -89,7 +89,7 @@ if [ -n ${COMMIT_ID} ];then
 	echo $COMMIT_ID
 fi
 
-fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION}  --rpm-os 'linux' --pre-install ${CUR_PATH}/script/web/beforeinstall.sh --post-install ${CUR_PATH}/script/web/afterinstall.sh --post-uninstall ${CUR_PATH}/script/web/afterremove.sh -C ${CUR_PATH}/build/nz-web -f -p ${CUR_PATH}/rpm
+fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration '0'  --rpm-os 'linux' --pre-install ${CUR_PATH}/script/web/beforeinstall.sh --post-install ${CUR_PATH}/script/web/afterinstall.sh --post-uninstall ${CUR_PATH}/script/web/afterremove.sh -C ${CUR_PATH}/build/nz-web -f -p ${CUR_PATH}/rpm
 
 log 'finished'
 echo 'finished'

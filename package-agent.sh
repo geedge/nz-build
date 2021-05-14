@@ -37,7 +37,7 @@ tar -xzf ${CUR_PATH}/tool/prometheus-2.13.1.linux-amd64.tar.gz --strip-component
 tar -xzf ${CUR_PATH}/tool/snmp_exporter-0.15.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/snmp_exporter
 tar -xzf ${CUR_PATH}/tool/blackbox_exporter-0.18.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/blackbox_exporter
 
-fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${COMMIT_ID}"linux" --rpm-os 'linux' --pre-install ${CUR_PATH}/script/nz-agent/beforeinstall.sh --post-install ${CUR_PATH}/script/nz-agent/afterinstall.sh --post-uninstall ${CUR_PATH}/script/nz-agent/afterremove.sh -C ${CUR_PATH}/build/nz-agent -f -p ${CUR_PATH}/rpm
+fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration --iteration '0' --rpm-os 'linux' --pre-install ${CUR_PATH}/script/nz-agent/beforeinstall.sh --post-install ${CUR_PATH}/script/nz-agent/afterinstall.sh --post-uninstall ${CUR_PATH}/script/nz-agent/afterremove.sh -C ${CUR_PATH}/build/nz-agent -f -p ${CUR_PATH}/rpm
 
 log 'package nz-agent finished'
 echo 'package nz-agent finished'

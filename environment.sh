@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #from git 0 from local 1
-export SOURCE_FROM=1
+export SOURCE_FROM=0
 #0 internet 1 local
-export NET_STATE=1
+export NET_STATE=0
 
 #web 打包的名称
 export WEB_PACKAGE_NAME='nezha'
@@ -12,7 +12,7 @@ export WEB_PACKAGE_VERSION='21.04'
 #agent 打包名称
 export AGENT_PACKAGE_NAME='nz-agent'
 #agent打包版本
-export AGENT_PACKAGE_VERSION='2.0'
+export AGENT_PACKAGE_VERSION='21.04'
 
 #下载代码的分支
 export WEB_BRANCH='dev-2.0'
