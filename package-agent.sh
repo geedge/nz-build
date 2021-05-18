@@ -33,7 +33,7 @@ cp -f ${AGENT_WORK_PATH}/target/{nz-agent.xjar,xjar} ${RPM_AGENT_PATH}
 
 cp -f ${AGENT_WORK_PATH}/src/main/resources/{application-prod.yml,application.yml,logback-spring.xml,auth.yml,token.auth} ${RPM_AGENT_PATH}/config
 
-tar -xzf ${CUR_PATH}/tool/prometheus-2.13.1.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/prometheus
+tar -xzf ${CUR_PATH}/tool/prometheus-2.27.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/prometheus
 tar -xzf ${CUR_PATH}/tool/snmp_exporter-0.15.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/snmp_exporter
 tar -xzf ${CUR_PATH}/tool/blackbox_exporter-0.18.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/blackbox_exporter
 echo '' > ${RPM_AGENT_PATH}/prometheus/rule.yml
