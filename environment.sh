@@ -43,7 +43,10 @@ export AGENT_WORK_PATH=${SOURCE_PATH}/nz-agent
 export RPM_WORK_PATH=${CUR_PATH}/build
 export RPM_WEB_PATH=${RPM_WORK_PATH}/nz-web/opt/nezha/nz-web/
 export RPM_AGENT_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/nz-agent/
-
+log()
+{
+	echo '['$(/usr/bin/date -d today +"%Y-%m-%d %T")'] '$1 >>$LOG
+}
 if [[ 0 -eq ${NET_STATE} && 0 -eq ${SOURCE_FROM} ]];then
   #准备git
   if [ 1 -eq `/usr/bin/which /usr/bin/git >> /dev/null;echo $?` ];then
@@ -96,10 +99,6 @@ if [ ! -d ${CUR_PATH}/rpm ];then
 	mkdir -p ${CUR_PATH}/rpm
 fi
 
-log()
-{
-	echo '['$(/usr/bin/date -d today +"%Y-%m-%d %T")'] '$1 >>$LOG
-}
 #拉取代码
 download_source()
 {
