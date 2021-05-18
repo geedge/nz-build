@@ -2,7 +2,7 @@
 
 # install
 if [ 1 -eq $1 ];then
-  cat > /usr/lib/systemd/system/nz-agent.service <<"EOF"
+  cat > /usr/lib/systemd/system/nz-agent.service <<EOF
 [Unit]
 Description=nz-agent
 After=network.target
@@ -42,7 +42,7 @@ Restart=always
 WantedBy=multi-user.target
 EOF
   cat >/opt/nezha/nz-agent/snmp_exporter/config.conf <<EOF
-OPTION="--web.listen-address='0.0.0.0:9116' --config.file='/opt/nezha/nz-agent/snmp_exporter/snmp.yml' "
+OPTION="--web.listen-address='127.0.0.1:9116' --config.file='/opt/nezha/nz-agent/snmp_exporter/snmp.yml' "
 EOF
 
 
@@ -53,7 +53,7 @@ After=network.target
 [Service]
 WorkingDirectory=/opt/nezha/nz-agent/blackbox_exporter
 EnvironmentFile=/opt/nezha/nz-agent/blackbox_exporter/config.conf
-ExecStart=/opt/nezha/nz-agent/blackbox/blackbox_exporter $OPTION
+ExecStart=/opt/nezha/nz-agent/blackbox_exporter/blackbox_exporter $OPTION
 Restart=always
 [Install]
 WantedBy=multi-user.target
