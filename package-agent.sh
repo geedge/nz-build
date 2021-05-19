@@ -38,7 +38,7 @@ tar -xzf ${CUR_PATH}/tool/snmp_exporter-0.15.0.linux-amd64.tar.gz --strip-compon
 tar -xzf ${CUR_PATH}/tool/blackbox_exporter-0.18.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/blackbox_exporter
 echo '' > ${RPM_AGENT_PATH}/prometheus/rule.yml
 
-cat > ${RPM_AGENT_PATH}/blackbox_exporter/blackbox.yml <EOF
+cat > ${RPM_AGENT_PATH}/blackbox_exporter/blackbox.yml <<EOF
 modules:
   http_2xx:
     prober: http
