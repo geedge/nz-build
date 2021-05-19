@@ -76,7 +76,7 @@ modules:
 EOF
 
 
-fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration '0' --rpm-os 'linux' --pre-install ${CUR_PATH}/script/nz-agent/beforeinstall.sh --post-install ${CUR_PATH}/script/nz-agent/afterinstall.sh --post-uninstall ${CUR_PATH}/script/nz-agent/afterremove.sh -C ${CUR_PATH}/build/nz-agent -f -p ${CUR_PATH}/rpm
+fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATION} --rpm-os 'linux' --pre-install ${CUR_PATH}/script/nz-agent/beforeinstall.sh --post-install ${CUR_PATH}/script/nz-agent/afterinstall.sh --post-uninstall ${CUR_PATH}/script/nz-agent/afterremove.sh -C ${CUR_PATH}/build/nz-agent -f -p ${CUR_PATH}/rpm
 
 log 'package nz-agent finished'
 echo 'package nz-agent finished'

@@ -56,7 +56,7 @@ fi
 
 cd ${WEB_WORK_PATH}
 
-mvn clean install -Dxjar.password=111111 -Dxjar.excludes=/db/*,/static/**/*,/install/*
+mvn clean install -Dxjar.password=afdsafasfsag -Dxjar.excludes=/db/*,/static/**/*,/install/*
 
 if [ 1 -eq $? ];then
 	log 'package web project faild...exit'
@@ -89,7 +89,7 @@ if [ -n ${COMMIT_ID} ];then
 	echo $COMMIT_ID
 fi
 
-fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration '0'  --rpm-os 'linux' --pre-install ${CUR_PATH}/script/web/beforeinstall.sh --post-install ${CUR_PATH}/script/web/afterinstall.sh --post-uninstall ${CUR_PATH}/script/web/afterremove.sh -C ${CUR_PATH}/build/nz-web -f -p ${CUR_PATH}/rpm
+fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATION}  --rpm-os 'linux' --pre-install ${CUR_PATH}/script/web/beforeinstall.sh --post-install ${CUR_PATH}/script/web/afterinstall.sh --post-uninstall ${CUR_PATH}/script/web/afterremove.sh -C ${CUR_PATH}/build/nz-web -f -p ${CUR_PATH}/rpm
 
 log 'finished'
 echo 'finished'

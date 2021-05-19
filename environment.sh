@@ -18,6 +18,8 @@ export AGENT_PACKAGE_VERSION='21.04'
 export WEB_BRANCH='dev-2.0'
 export GUI_BRANCH='dev-2.0'
 export AGENT_BRANCH='dev'
+# Alpha、Beta、RC、Release
+export ITERATION='Beta'
 
 export CUR_PATH=`pwd`
 
