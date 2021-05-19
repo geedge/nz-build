@@ -28,7 +28,7 @@ Restart=always
 WantedBy=multi-user.target
 EOF
   cat > /opt/nezha/nz-agent/prometheus/config.conf <<EOF
-OPTION=" --config.file='/opt/nezha/nz-agent/prometheus/prometheus.yml' --web.listen-address='127.0.0.1:19090' --web.enable-admin-api --web.enable-lifecycle --storage.tsdb.retention.time=15d "
+OPTION=" --config.file='/opt/nezha/nz-agent/prometheus/prometheus.yml' --web.listen-address='127.0.0.1:10091' --web.enable-admin-api --web.enable-lifecycle --storage.tsdb.retention.time=15d "
 EOF
   cat > /usr/lib/systemd/system/snmp-exporter.service <<"EOF"
 [Unit]
@@ -42,7 +42,7 @@ Restart=always
 WantedBy=multi-user.target
 EOF
   cat >/opt/nezha/nz-agent/snmp_exporter/config.conf <<EOF
-OPTION="--web.listen-address='127.0.0.1:9116' --config.file='/opt/nezha/nz-agent/snmp_exporter/snmp.yml' "
+OPTION="--web.listen-address='127.0.0.1:19116' --config.file='/opt/nezha/nz-agent/snmp_exporter/snmp.yml' "
 EOF
 
 
@@ -59,7 +59,7 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 cat >/opt/nezha/nz-agent/blackbox_exporter/config.conf <<EOF
-OPTION="--web.listen-address='127.0.0.1:9115' --config.file='/opt/nezha/nz-agent/blackbox_exporter/blackbox.yml' "
+OPTION="--web.listen-address='127.0.0.1:19115' --config.file='/opt/nezha/nz-agent/blackbox_exporter/blackbox.yml' "
 EOF
 
 	systemctl daemon-reload

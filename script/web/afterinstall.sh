@@ -24,7 +24,7 @@ if [ 1 -eq $1 ];then
 
 	echo 'WorkingDirectory=/opt/nezha/nz-web' >> nzweb.service
 
-	echo 'ExecStart=/usr/bin/nohup /opt/nezha/nz-web/xjar '${java_home}'/bin/java -jar /opt/nezha/nz-web/nz-admin.xjar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/nezha/nz-web/logs &' >> nzweb.service
+	echo 'ExecStart=/opt/nezha/nz-web/xjar '${java_home}'/bin/java -jar /opt/nezha/nz-web/nz-admin.xjar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/nezha/nz-web/logs' >> nzweb.service
 
 	echo 'ExecStop=/usr/bin/pgrep -f nz-admin |xargs kill -9' >> nzweb.service
 
