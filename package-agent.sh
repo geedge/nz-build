@@ -1,7 +1,8 @@
 #!/bin/bash
+source ./environment.sh
 PACKAGE_NAME=${AGENT_PACKAGE_NAME}
 PACKAGE_VERSION=${AGENT_PACKAGE_VERSION}
-source ./environment.sh
+
 
 if [ 1 -eq $? ];then
   exit 1
