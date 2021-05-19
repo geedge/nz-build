@@ -28,7 +28,7 @@ Restart=always
 WantedBy=multi-user.target
 EOF
   cat > /opt/nezha/nz-agent/prometheus/config.conf <<EOF
-OPTION=" --config.file='/opt/nezha/nz-agent/prometheus/prometheus.yml' --web.listen-address='127.0.0.1:10091' --web.enable-admin-api --web.enable-lifecycle --storage.tsdb.retention.time=15d "
+OPTION=" --config.file='/opt/nezha/nz-agent/prometheus/prometheus.yml' --web.listen-address='127.0.0.1:10091' --storage.tsdb.path='/opt/nezha/data' --web.enable-admin-api --web.enable-lifecycle --storage.tsdb.retention.time=15d "
 EOF
   cat > /usr/lib/systemd/system/snmp-exporter.service <<"EOF"
 [Unit]
