@@ -70,8 +70,8 @@ if [ 0 -eq ${NET_STATE} ];then
   #准备nodejs
   if [ 1 -eq $(which npm>/dev/null;echo $?) ];then
           log 'start install nodeJS...'
-          curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash >> $LOG
-          sudo yum install -y nodejs >> $LOG
+          curl --silent --location https://rpm.nodesource.com/setup_10.x | bash >> $LOG
+          yum install -y nodejs >> $LOG
           if [ 1 -eq $? ];then
             log 'install nodeJS faild...exti'
             exit 1

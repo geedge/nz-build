@@ -18,7 +18,7 @@ echo 'packaging nz-agent ...'
 log 'packaging nz-agent ...'
 
 cd ${AGENT_WORK_PATH}
-sudo mvn clean install -Dxjar.password=111111 -Dxjar.excludes=/db/*,/static/**/*
+mvn clean install -Dxjar.password=111111 -Dxjar.excludes=/db/*,/static/**/*
 
 if [ 1 -eq $? ];then
 	log 'package nz-agent project faild...exit'
@@ -31,7 +31,7 @@ cd ${AGENT_WORK_PATH}/target
 go build ${AGENT_WORK_PATH}/target/xjar.go
 cp -f ${AGENT_WORK_PATH}/target/{nz-agent.xjar,xjar} ${RPM_AGENT_PATH}
 
-cp -f ${AGENT_WORK_PATH}/src/main/resources/{application-prod.yml,application.yml,logback-spring.xml,auth.yml,token.auth} ${RPM_AGENT_PATH}/config
+cp -f ${AGENT_WORK_PATH}/src/main/resources/{application-prod.yml,application.yml,logback-spring.xml,config/auth.yml,config/token.auth} ${RPM_AGENT_PATH}/config
 
 tar -xzf ${CUR_PATH}/tool/prometheus-2.27.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/prometheus
 tar -xzf ${CUR_PATH}/tool/snmp_exporter-0.15.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/snmp_exporter

@@ -28,8 +28,8 @@ fi
 cd ${GUI_WORK_PATH}
 echo 'packaging nezha gui ...'
 log 'packaging nezha gui ...'
-sudo npm install >> $LOG
-sudo npm run build >>$LOG
+npm install >> $LOG
+npm run build >>$LOG
 
 if [ 1 -eq $? ];then
 	log 'build faild,please check nodejs environment'
@@ -56,7 +56,7 @@ fi
 
 cd ${WEB_WORK_PATH}
 
-sudo mvn clean install -Dxjar.password=111111 -Dxjar.excludes=/db/*,/static/**/*,/install/*
+mvn clean install -Dxjar.password=111111 -Dxjar.excludes=/db/*,/static/**/*,/install/*
 
 if [ 1 -eq $? ];then
 	log 'package web project faild...exit'
