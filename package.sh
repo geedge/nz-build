@@ -73,7 +73,7 @@ go build ${WEB_WORK_PATH}/nz-admin/target/xjar.go
 cp ${WEB_WORK_PATH}/nz-admin/target/{nz-admin.xjar,xjar} ${RPM_WEB_PATH}
 
 cp ${WEB_WORK_PATH}/nz-admin/src/main/resources/install/install.sh.template ${RPM_WEB_PATH}/install/
-cp ${CUR_PATH}/rpm/${AGENT_PACKAGE_NAME}-${AGENT_PACKAGE_VERSION}-0.x86_64.rpm ${RPM_WEB_PATH}/install/
+cp ${CUR_PATH}/rpm/${AGENT_PACKAGE_NAME}-${AGENT_PACKAGE_VERSION}-${ITERATION}.x86_64.rpm ${RPM_WEB_PATH}/install/
 
 #cp -r ${WEB_WORK_PATH}/build_node_exporter ${RPM_WEB_PATH}
 
