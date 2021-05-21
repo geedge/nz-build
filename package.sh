@@ -50,9 +50,9 @@ unzip nz-gui*.zip >>/dev/null
 #mv ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/dist/* ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/
 #rm -rf ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/dist/
 
-if [ 1 -eq $(ls ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/static |wc -l) ];then
-	\cp -rf ${GUI_WORK_PATH}/static/Tiles ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/static
-fi
+#if [ 1 -eq $(ls ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/static |wc -l) ];then
+\cp -rf ${GUI_WORK_PATH}/static/Tiles ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/static
+#fi
 
 cd ${WEB_WORK_PATH}
 
