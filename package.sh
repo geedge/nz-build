@@ -71,11 +71,32 @@ cd ${WEB_WORK_PATH}/nz-admin/target/
 go build ${WEB_WORK_PATH}/nz-admin/target/xjar.go
 
 cp ${WEB_WORK_PATH}/nz-admin/target/{nz-admin.xjar,xjar} ${RPM_WEB_PATH}
+if [ ! -e ${CUR_PATH}/dist ];then
+        mkdir -p ${CUR_PATH}/dist
+fi
+rm -rf ${CUR_PATH}/dist/nz-admin.xjar
+cp ${WEB_WORK_PATH}/nz-admin/target/nz-admin.xjar ${CUR_PATH}/dist
+
+
+cp ${WEB_WORK_PATH}/nz-admin/target/{nz-admin.xjar,xjar} ${RPM_WEB_PATH}
 
 cp ${WEB_WORK_PATH}/nz-admin/src/main/resources/install/install.sh.template ${RPM_WEB_PATH}/install/
 cp ${CUR_PATH}/rpm/${AGENT_PACKAGE_NAME}-${AGENT_PACKAGE_VERSION}-${ITERATION}.x86_64.rpm ${RPM_WEB_PATH}/install/
 
 #cp -r ${WEB_WORK_PATH}/build_node_exporter ${RPM_WEB_PATH}
+
+cat > ${WEB_WORK_PATH}/nz-admin/src/main/resources/config/nezha.properties <<EOF
+server.port=80
+nezha.inited=0
+database.name=
+database.host=
+database.port=
+database.user=
+database.pin=
+redis.host=
+redis.port=
+redis.pin=
+EOF
 
 cp ${WEB_WORK_PATH}/nz-admin/src/main/resources/config/{nezha.properties,logback-spring.xml} ${RPM_WEB_PATH}/config
 

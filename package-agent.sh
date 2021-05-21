@@ -31,6 +31,11 @@ mkdir -p ${RPM_AGENT_PATH}/{config,prometheus,snmp_exporter,blackbox_exporter}
 cd ${AGENT_WORK_PATH}/target
 go build ${AGENT_WORK_PATH}/target/xjar.go
 cp -f ${AGENT_WORK_PATH}/target/{nz-agent.xjar,xjar} ${RPM_AGENT_PATH}
+if [ ! -e ${CUR_PATH}/dist ];then
+        mkdir -p ${CUR_PATH}/dist
+fi
+rm -rf ${CUR_PATH}/dist/nz-agent.xjar
+cp ${AGENT_WORK_PATH}/target/nz-agent.xjar ${CUR_PATH}/dist
 
 cp -f ${AGENT_WORK_PATH}/src/main/resources/{application-prod.yml,application.yml,logback-spring.xml,config/auth.yml,config/token.auth} ${RPM_AGENT_PATH}/config
 
