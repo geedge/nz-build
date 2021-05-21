@@ -19,7 +19,7 @@ export WEB_BRANCH='dev-2.0'
 export GUI_BRANCH='dev-2.0'
 export AGENT_BRANCH='dev'
 # Alpha、Beta、RC、Release
-export ITERATION='Beta'
+export ITERATION='Release'
 
 export CUR_PATH=`pwd`
 
