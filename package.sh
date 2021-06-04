@@ -39,21 +39,6 @@ fi
 
 rm -rf ${WEB_WORK_PATH}/nz-admin/src/main/resources/{static,statics}
 
-mkdir ${WEB_WORK_PATH}/nz-admin/src/main/resources/static
-
-cp ${GUI_WORK_PATH}/dist/nz-gui*.zip ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/
-
-cd ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/
-
-unzip nz-gui*.zip >>/dev/null
-
-#mv ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/dist/* ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/
-#rm -rf ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/dist/
-
-#if [ 1 -eq $(ls ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/static |wc -l) ];then
-\cp -rf ${GUI_WORK_PATH}/static/Tiles ${WEB_WORK_PATH}/nz-admin/src/main/resources/static/static
-#fi
-
 cd ${WEB_WORK_PATH}
 
 mvn clean install -Dxjar.password=afdsafasfsag -Dxjar.excludes=/db/*,/static/**/*,/install/*
@@ -65,7 +50,15 @@ fi
 
 rm -rf ${CUR_PATH}/build/nz-web/*
 
-mkdir -p ${RPM_WEB_PATH}/{config,install}
+mkdir -p ${RPM_WEB_PATH}/{config,install,public}
+
+cp ${GUI_WORK_PATH}/dist/nz-gui*.zip ${RPM_WEB_PATH}/public
+
+cd ${RPM_WEB_PATH}/public
+
+unzip nz-gui*.zip >>/dev/null
+
+\cp -rf ${GUI_WORK_PATH}/static/Tiles ${RPM_WEB_PATH}/public/static/
 
 cd ${WEB_WORK_PATH}/nz-admin/target/
 go build ${WEB_WORK_PATH}/nz-admin/target/xjar.go
