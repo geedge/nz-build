@@ -8,16 +8,21 @@ export NET_STATE=0
 #web 打包的名称
 export WEB_PACKAGE_NAME='nezha'
 #web 打包的版本
-export WEB_PACKAGE_VERSION='21.04'
+export WEB_PACKAGE_VERSION='21.07'
 #agent 打包名称
 export AGENT_PACKAGE_NAME='nz-agent'
 #agent打包版本
-export AGENT_PACKAGE_VERSION='21.04'
+export AGENT_PACKAGE_VERSION='21.07'
+#talon 打包名称
+export TALON_PACKAGE_NAME='nz-talon'
+#talon打包版本
+export TALON_PACKAGE_VERSION='21.07'
 
 #下载代码的分支
 export WEB_BRANCH='dev-2.0'
 export GUI_BRANCH='dev-2.0'
 export AGENT_BRANCH='dev'
+export TALON_BRANCH='dev'
 # Alpha、Beta、RC、Release
 export ITERATION='Release'
 
@@ -35,16 +40,18 @@ export LOG=${CUR_PATH}/logger.log
 export WEB_URL='git@git.mesalab.cn:nezha/nz-web.git'
 export GUI_URL='git@git.mesalab.cn:nezha/nezha-fronted.git'
 export AGENT_URL='git@git.mesalab.cn:nezha/nz-agent.git'
-
+export TALON_URL='git@git.mesalab.cn:nezha/nz-talon.git'
 #拉取的源代码的根路径
 export GUI_WORK_PATH=${SOURCE_PATH}/nezha-fronted/nezha-fronted
 export WEB_WORK_PATH=${SOURCE_PATH}/nz-web
 export AGENT_WORK_PATH=${SOURCE_PATH}/nz-agent
+export TALON_WORK_PATH=${SOURCE_PATH}/nz-talon
 
 #构建rpm包的虚拟路径，每次打包之前需要保证目录纯净
 export RPM_WORK_PATH=${CUR_PATH}/build
 export RPM_WEB_PATH=${RPM_WORK_PATH}/nz-web/opt/nezha/nz-web/
 export RPM_AGENT_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/nz-agent/
+export RPM_TALON_PATH=${RPM_WORK_PATH}/nz-talon/opt/nezha/nz-talon/
 log()
 {
 	echo '['$(/usr/bin/date -d today +"%Y-%m-%d %T")'] '$1 >>$LOG

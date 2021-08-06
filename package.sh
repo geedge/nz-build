@@ -6,6 +6,7 @@ if [ 1 -eq $? ];then
 fi
 
 source ./package-agent.sh
+source ./package-talon.sh
 
 if [ 1 -eq $? ];then
   exit 1
@@ -75,6 +76,7 @@ cp ${WEB_WORK_PATH}/nz-admin/target/{nz-admin.xjar,xjar} ${RPM_WEB_PATH}
 
 cp ${WEB_WORK_PATH}/nz-admin/src/main/resources/install/install.sh.template ${RPM_WEB_PATH}/install/
 cp ${CUR_PATH}/rpm/${AGENT_PACKAGE_NAME}-${AGENT_PACKAGE_VERSION}-${ITERATION}.x86_64.rpm ${RPM_WEB_PATH}/install/
+cp ${CUR_PATH}/rpm/${TALON_PACKAGE_NAME}-${TALON_PACKAGE_VERSION}-${ITERATION}.x86_64.rpm ${RPM_WEB_PATH}/install/
 
 #cp -r ${WEB_WORK_PATH}/build_node_exporter ${RPM_WEB_PATH}
 

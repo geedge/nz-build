@@ -24,6 +24,7 @@ WorkingDirectory=/opt/nezha/nz-agent/prometheus
 EnvironmentFile=/opt/nezha/nz-agent/prometheus/config.conf
 ExecStart=/opt/nezha/nz-agent/prometheus/prometheus $OPTION
 Restart=always
+LimitNOFILE=524288
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -38,6 +39,7 @@ After=network.target
 EnvironmentFile=/opt/nezha/nz-agent/snmp_exporter/config.conf
 ExecStart=/opt/nezha/nz-agent/snmp_exporter/snmp_exporter $OPTION
 Restart=always
+LimitNOFILE=524288
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -55,6 +57,7 @@ WorkingDirectory=/opt/nezha/nz-agent/blackbox_exporter
 EnvironmentFile=/opt/nezha/nz-agent/blackbox_exporter/config.conf
 ExecStart=/opt/nezha/nz-agent/blackbox_exporter/blackbox_exporter $OPTION
 Restart=always
+LimitNOFILE=524288
 [Install]
 WantedBy=multi-user.target
 EOF
