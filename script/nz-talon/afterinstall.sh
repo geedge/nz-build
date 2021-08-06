@@ -8,15 +8,34 @@ Description=nz-talon
 After=network.target
 [Service]
 WorkingDirectory=/opt/nezha/nz-talon
-ExecStart=/usr/bin/nohup ${JAVA_HOME}/bin/java -jar /opt/nezha/nz-talon/nz-talon.jar &
+ExecStart=/usr/bin/nohup /opt/nezha/nz-talon/xjar ${JAVA_HOME}/bin/java -Dnz-agent.dir=/opt/nezha/nz-talon -jar /opt/nezha/nz-talon/nz-talon.xjar &
 ExecStop=/usr/bin/pgrep -f nz-talon |xargs kill -9
 Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
 
+cat > /usr/lib/systemd/system/nz-promtail.service <<"EOF"
+[Unit]
+Description=nz-talon
+After=network.target
+[Service]
+WorkingDirectory=/opt/nezha/promtail
+EnvironmentFile=/opt/nezha/promtail/config.conf
+ExecStart=/opt/nezha/promtail/promtail $OPTION
+Restart=always
+[Install]
+WantedBy=multi-user.target
+EOF
+
+EOF
+  cat > /opt/nezha/promtail/config.conf <<EOF
+OPTION=" -config.file promtail.yaml "
+EOF
+
 	systemctl daemon-reload
 	systemctl enable nz-talon && systemctl restart nz-talon
+	systemctl enable nz-promtail && systemctl restart nz-promtail
 	
 
 	echo 'install nz-talon success !'
@@ -43,7 +62,7 @@ compareMD5()
 if [ 2 -eq $1 ];then
 
 	TALON_PATH=/opt/nezha/nz-talon
-
+	
 	TMP_PATH=/tmp/nezha/nz-talon
 	echo 'move backup config file...'
 	if [ -d $TMP_PATH ];then
@@ -54,7 +73,8 @@ if [ 2 -eq $1 ];then
 				cp -f $TMP_PATH/config/$i $TALON_PATH/config/$i'.oldconfig'
 				cat $TALON_PATH/config/token.auth'.oldconfig' > $TALON_PATH/config/token.auth && rm -f $TALON_PATH/config/token.auth'.oldconfig'
 			fi	
-		done	
+		done
 	fi
 	systemctl restart nz-talon
+	systemctl restart nz-promtail
 fi

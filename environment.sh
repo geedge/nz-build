@@ -29,6 +29,7 @@ export ITERATION='Release'
 export CUR_PATH=`pwd`
 
 export SOURCE_PATH=${CUR_PATH}/source
+
 if [ ! -d ${SOURCE_PATH} ]; then
         mkdir -p ${SOURCE_PATH}
 fi
@@ -52,6 +53,7 @@ export RPM_WORK_PATH=${CUR_PATH}/build
 export RPM_WEB_PATH=${RPM_WORK_PATH}/nz-web/opt/nezha/nz-web/
 export RPM_AGENT_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/nz-agent/
 export RPM_TALON_PATH=${RPM_WORK_PATH}/nz-talon/opt/nezha/nz-talon/
+export RPM_PROMTAIL_PATH=${RPM_WORK_PATH}/nz-talon/opt/nezha/promtail/
 log()
 {
 	echo '['$(/usr/bin/date -d today +"%Y-%m-%d %T")'] '$1 >>$LOG
