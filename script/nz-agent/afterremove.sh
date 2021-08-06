@@ -9,6 +9,9 @@ if [ 0 -eq $1 ];then
 	systemctl stop blackbox-exporter.service
 
 	rm -rf /opt/nezha/nz-agent
+	rm -rf /opt/nezha/prometheus
+	rm -rf /opt/nezha/snmp_exporter
+	rm -rf /opt/nezha/blackbox_exporter
 
 	systemctl disable nz-agent.service
 	systemctl disable prometheus.service

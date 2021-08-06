@@ -26,7 +26,10 @@ if [ 1 -eq $? ];then
 	exit 1
 fi
 rm -rf ${CUR_PATH}/build/nz-agent/*
-mkdir -p ${RPM_AGENT_PATH}/{config,prometheus,snmp_exporter,blackbox_exporter}
+mkdir -p ${RPM_AGENT_PATH}/config
+mkdir -p ${RPM_PROMETHEUS_PATH}
+mkdir -p ${RPM_SNMP_EXPORTER_PATH}
+mkdir -p ${RPM_BLACK_EXPORTER_PATH}
 
 cd ${AGENT_WORK_PATH}/target
 go build ${AGENT_WORK_PATH}/target/xjar.go
@@ -39,12 +42,12 @@ cp ${AGENT_WORK_PATH}/target/nz-agent.xjar ${CUR_PATH}/dist
 
 cp -f ${AGENT_WORK_PATH}/src/main/resources/{application-prod.yml,application.yml,logback-spring.xml,config/auth.yml,config/token.auth} ${RPM_AGENT_PATH}/config
 
-tar -xzf ${CUR_PATH}/tool/prometheus-2.27.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/prometheus
-tar -xzf ${CUR_PATH}/tool/snmp_exporter-0.15.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/snmp_exporter
-tar -xzf ${CUR_PATH}/tool/blackbox_exporter-0.18.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_AGENT_PATH}/blackbox_exporter
-echo '' > ${RPM_AGENT_PATH}/prometheus/rule.yml
+tar -xzf ${CUR_PATH}/tool/prometheus-2.27.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_PROMETHEUS_PATH}
+tar -xzf ${CUR_PATH}/tool/snmp_exporter-0.15.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_SNMP_EXPORTER_PATH}
+tar -xzf ${CUR_PATH}/tool/blackbox_exporter-0.18.0.linux-amd64.tar.gz --strip-components 1 -C ${RPM_BLACK_EXPORTER_PATH}
+echo '' > ${RPM_PROMETHEUS_PATH}/rule.yml
 
-cat > ${RPM_AGENT_PATH}/blackbox_exporter/blackbox.yml <<EOF
+cat > ${RPM_BLACK_EXPORTER_PATH}/blackbox.yml <<EOF
 modules:
   http_2xx:
     prober: http

@@ -20,31 +20,31 @@ EOF
 Description=prometheus
 After=network.target
 [Service]
-WorkingDirectory=/opt/nezha/nz-agent/prometheus
-EnvironmentFile=/opt/nezha/nz-agent/prometheus/config.conf
-ExecStart=/opt/nezha/nz-agent/prometheus/prometheus $OPTION
+WorkingDirectory=/opt/nezha/prometheus
+EnvironmentFile=/opt/nezha/prometheus/config.conf
+ExecStart=/opt/nezha/prometheus/prometheus $OPTION
 Restart=always
 LimitNOFILE=524288
 [Install]
 WantedBy=multi-user.target
 EOF
-  cat > /opt/nezha/nz-agent/prometheus/config.conf <<EOF
-OPTION=" --config.file='/opt/nezha/nz-agent/prometheus/prometheus.yml' --web.listen-address='127.0.0.1:10091' --storage.tsdb.path='/opt/nezha/data' --web.enable-admin-api --web.enable-lifecycle --storage.tsdb.retention.time=15d "
+  cat > /opt/nezha/prometheus/config.conf <<EOF
+OPTION=" --config.file='/opt/nezha/prometheus/prometheus.yml' --web.listen-address='127.0.0.1:10091' --storage.tsdb.path='/opt/nezha/data' --web.enable-admin-api --web.enable-lifecycle --storage.tsdb.retention.time=15d "
 EOF
   cat > /usr/lib/systemd/system/snmp-exporter.service <<"EOF"
 [Unit]
 Description=snmp-exporter
 After=network.target
 [Service]
-EnvironmentFile=/opt/nezha/nz-agent/snmp_exporter/config.conf
-ExecStart=/opt/nezha/nz-agent/snmp_exporter/snmp_exporter $OPTION
+EnvironmentFile=/opt/nezha/snmp_exporter/config.conf
+ExecStart=/opt/nezha/snmp_exporter/snmp_exporter $OPTION
 Restart=always
 LimitNOFILE=524288
 [Install]
 WantedBy=multi-user.target
 EOF
-  cat >/opt/nezha/nz-agent/snmp_exporter/config.conf <<EOF
-OPTION="--web.listen-address='127.0.0.1:19116' --config.file='/opt/nezha/nz-agent/snmp_exporter/snmp.yml' "
+  cat >/opt/nezha/snmp_exporter/config.conf <<EOF
+OPTION="--web.listen-address='127.0.0.1:19116' --config.file='/opt/nezha/snmp_exporter/snmp.yml' "
 EOF
 
 
@@ -53,16 +53,16 @@ EOF
 Description=blackbox_exporter
 After=network.target
 [Service]
-WorkingDirectory=/opt/nezha/nz-agent/blackbox_exporter
-EnvironmentFile=/opt/nezha/nz-agent/blackbox_exporter/config.conf
-ExecStart=/opt/nezha/nz-agent/blackbox_exporter/blackbox_exporter $OPTION
+WorkingDirectory=/opt/nezha/blackbox_exporter
+EnvironmentFile=/opt/nezha/blackbox_exporter/config.conf
+ExecStart=/opt/nezha/blackbox_exporter/blackbox_exporter $OPTION
 Restart=always
 LimitNOFILE=524288
 [Install]
 WantedBy=multi-user.target
 EOF
-cat >/opt/nezha/nz-agent/blackbox_exporter/config.conf <<EOF
-OPTION="--web.listen-address='127.0.0.1:19115' --config.file='/opt/nezha/nz-agent/blackbox_exporter/blackbox.yml' "
+cat >/opt/nezha/blackbox_exporter/config.conf <<EOF
+OPTION="--web.listen-address='127.0.0.1:19115' --config.file='/opt/nezha/blackbox_exporter/blackbox.yml' "
 EOF
 
 	systemctl daemon-reload

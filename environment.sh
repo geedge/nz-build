@@ -52,6 +52,9 @@ export TALON_WORK_PATH=${SOURCE_PATH}/nz-talon
 export RPM_WORK_PATH=${CUR_PATH}/build
 export RPM_WEB_PATH=${RPM_WORK_PATH}/nz-web/opt/nezha/nz-web/
 export RPM_AGENT_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/nz-agent/
+export RPM_PROMETHEUS_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/prometheus
+export RPM_SNMP_EXPORTER_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/snmp_exporter
+export RPM_BLACK_EXPORTER_PATH=${RPM_WORK_PATH}/nz-agent/opt/nezha/blackbox_exporter
 export RPM_TALON_PATH=${RPM_WORK_PATH}/nz-talon/opt/nezha/nz-talon/
 export RPM_PROMTAIL_PATH=${RPM_WORK_PATH}/nz-talon/opt/nezha/promtail/
 log()
