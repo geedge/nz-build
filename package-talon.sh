@@ -46,7 +46,7 @@ cp -f ${TALON_WORK_PATH}/src/main/resources/{application-prod.yml,application.ym
 cat > ${RPM_PROMTAIL_PATH}/promtail.yaml <<EOF
 server: 
   http_listen_address: 127.0.0.1
-  http_listen_port: 9080
+  http_listen_port: 19080
 
 positions:
   filename: /tmp/positions.yaml
