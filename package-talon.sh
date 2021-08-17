@@ -47,7 +47,8 @@ cat > ${RPM_PROMTAIL_PATH}/promtail.yaml <<EOF
 server: 
   http_listen_address: 127.0.0.1
   http_listen_port: 19080
-
+  grpc_listen_port: 19081
+  
 positions:
   filename: /tmp/positions.yaml
 
