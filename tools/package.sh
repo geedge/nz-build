@@ -51,7 +51,7 @@ cp ./tools/lib*.so  $RPM_NZ_PATH/lib
 
 # 移动依赖工具
 mv promtool $RPM_NZ_PATH/promtool/
-unzip -o nz-gui-*.zip -d $RPM_NZ_PATH/generator/
+unzip -o generator.zip -d $RPM_NZ_PATH/generator/
 
 # 配置文件
 cp ./tools/nezhe.properties $RPM_NZ_PATH/config
