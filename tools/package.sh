@@ -60,7 +60,7 @@ cp ./tools/logback-spring.xml $RPM_NZ_PATH/config
 # 设置可执行权限
 chmod +x $RPM_NZ_PATH/xjar
 chmod +x $RPM_NZ_PATH/promtool/promtool
-chmod +x $RPM_NZ_PATH/promtool/generator/generator
+chmod +x $RPM_NZ_PATH/generator/generator
 
 
 
