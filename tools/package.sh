@@ -54,7 +54,7 @@ mv promtool $RPM_NZ_PATH/promtool/
 unzip -o generator.zip -d $RPM_NZ_PATH/generator/
 
 # 配置文件
-cp ./tools/nezhe.properties $RPM_NZ_PATH/config
+cp ./tools/nezha.properties $RPM_NZ_PATH/config
 cp ./tools/logback-spring.xml $RPM_NZ_PATH/config
 
 # 设置可执行权限
