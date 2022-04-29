@@ -32,7 +32,7 @@ mc cp nz/depends/prometheus/promtool ./
 # rpm 编译目录
 BUILD_PATH=$CUR_PWD/build
 RPM_NZ_PATH=$BUILD_PATH/opt/nezha/nz-web
-mkdir -p $BUILD_PATH $RPM_NZ_PATH $RPM_NZ_PATH/bin $RPM_NZ_PATH/install $RPM_NZ_PATH/config $RPM_NZ_PATH/generator $RPM_NZ_PATH/promtool $RPM_NZ_PATH/public
+mkdir -p $BUILD_PATH $RPM_NZ_PATH $RPM_NZ_PATH/bin $RPM_NZ_PATH/install $RPM_NZ_PATH/config $RPM_NZ_PATH/generator $RPM_NZ_PATH/promtool $RPM_NZ_PATH/public $RPM_NZ_PATH/lib
 
 echo 'packaging  begin ...'
 
