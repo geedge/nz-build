@@ -28,6 +28,7 @@ mc cp nz/$NZ_GUI_PKG ./
 mc cp nz/$NZ_TALON_PKG ./
 mc cp nz/depends/exporter/generator.zip ./
 mc cp nz/depends/prometheus/promtool ./
+mc cp nz/depends/map/Tiles.zip ./
 
 # rpm 编译目录
 BUILD_PATH=$CUR_PWD/build
@@ -41,6 +42,9 @@ tar -zxvf nz-web-*.tar.gz -C $RPM_NZ_PATH
 
 # 解压 nz-gui.zip
 unzip -o nz-gui-*.zip -d $RPM_NZ_PATH/public
+
+# 解压 map/Tiles.zip 默认 1-7 级
+unzip -o -q Tiles.zip -d $RPM_NZ_PATH/public/static
 
 # 移动nz.rpm
 mv nz-*.rpm $RPM_NZ_PATH/install
