@@ -15,7 +15,7 @@ ITERATION=Beta
 if [[ "${BRANCH_ARRAY[0]}" == "rel" ]] ; then
   ITERATION='Release';
 fi
-RPM_FULL_NAME=${PACKAGE_NAME}-${PACKAGE_VERSION}-${ITERATION}.x86_64.rpm
+RPM_FULL_NAME=${RPM_PACKAGE_NAME}-${PACKAGE_VERSION}-${ITERATION}.x86_64.rpm
 
 echo 'install test begin ...'
 # 先查询 rpm -qa nz
