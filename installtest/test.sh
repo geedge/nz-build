@@ -37,6 +37,8 @@ rpm -ivh $RPM_FULL_NAME
 IS_INSTALLED=`rpm -qa | grep ${RPM_FULL_NAME/.rpm/}`
 if [ $? -eq 0 ];then
     echo 'install success'
+    START_CMD="nohup $RPM_INSTALL_PATH/xjar java -jar $RPM_INSTALL_PATH/nz-admin.xjar >/dev/null &"
+    $START_CMD
     sleep 10
 else
     echo 'install failed'
@@ -103,6 +105,10 @@ REQUEST_BODY="{\"database\":{\"host\":\"$MYSQL_HOSTNAME\",\"port\":$MYSQL_PORT,\
 CONFIG_RESULT=`curl -k -m 10 -o /dev/null -s -w %{http_code} -X POST -H 'Content-Type:application/json;charset=UTF-8' -d "${REQUEST_BODY}" 'http://localhost/setup/config'`
 if [ $CONFIG_RESULT -eq 200 ];then
     echo "setup config finished"
+    cat $RPM_INSTALL_PATH/config/nezha.properties
+    ps -ef | grep java | grep -v grep | awk '{print $2}' | xargs kill -9
+    START_CMD="nohup $RPM_INSTALL_PATH/xjar java -jar $RPM_INSTALL_PATH/nz-admin.xjar >/dev/null &"
+    $START_CMD
 else
     echo "setup config error"
     exit 1
