@@ -17,6 +17,9 @@ if [[ "${BRANCH_ARRAY[0]}" == "rel" ]] ; then
 fi
 RPM_FULL_NAME=${RPM_PACKAGE_NAME}-${PACKAGE_VERSION}-${ITERATION}.x86_64.rpm
 
+# 初始化 minio
+mc alias set nz $MINIO_HOST $MINIO_USER $MINIO_PWD
+
 echo 'install test begin ...'
 # 先查询 rpm -qa nz
 QUERY_RESULT=`rpm -qa $RPM_PACKAGE_NAME`
@@ -27,6 +30,7 @@ if [ ! -z "$QUERY_RESULT" ];then
 fi
 
 # 安装
+mc cp nz/release/$RPM_PACKAGE_NAME/$RPM_FULL_NAME ./
 rpm -ivh $RPM_FULL_NAME
 
 # 检查安装是否成功
