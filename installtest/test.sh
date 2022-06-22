@@ -38,9 +38,7 @@ cd $RPM_INSTALL_PATH
 IS_INSTALLED=`rpm -qa | grep ${RPM_FULL_NAME/.rpm/}`
 if [ $? -eq 0 ];then
     echo 'install success'
-    START_CMD="bash -c 'setsid ./xjar java -jar nz-admin.xjar &'"
-    $START_CMD
-    sleep 10
+    bash -c "setsid ./xjar java -jar nz-admin.xjar &"
 else
     echo 'install failed'
     exit 1
@@ -108,8 +106,7 @@ if [ $CONFIG_RESULT -eq 200 ];then
     echo "setup config finished"
     cat $RPM_INSTALL_PATH/config/nezha.properties
     ps -ef | grep java | grep -v grep | awk '{print $2}' | xargs kill -9
-    START_CMD="bash -c 'setsid ./xjar java -jar nz-admin.xjar &'"
-    $START_CMD
+    bash -c "setsid ./xjar java -jar nz-admin.xjar &"
 else
     echo "setup config error"
     exit 1
