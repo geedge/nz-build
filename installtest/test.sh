@@ -32,6 +32,7 @@ fi
 # 安装
 mc cp nz/release/$RPM_PACKAGE_NAME/$RPM_FULL_NAME ./
 rpm -ivh $RPM_FULL_NAME
+cd $RPM_INSTALL_PATH
 
 # 检查安装是否成功
 IS_INSTALLED=`rpm -qa | grep ${RPM_FULL_NAME/.rpm/}`
