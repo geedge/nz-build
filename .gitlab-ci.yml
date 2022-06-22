@@ -7,7 +7,17 @@ variables:
   MINIO_USER: 'admin'
   MINIO_PWD: "Nezha@02!"
   MAVEN_REPO: "/etc/maven/repository/"
-
+  # mariadb 数据库定义（非必须）
+  MYSQL_DATABASE: "nezha"
+  # mariadb 密码配置（必须），注意变量名是 MYSQL_ROOT_PASSWORD
+  MYSQL_ROOT_PASSWORD: '111111'
+  MYSQL_PORT: 3306
+  # redis 端口定义 （必须）
+  REDIS_PORT: 6379
+# 定义全局依赖的docker服务，即 这条流水线 pipeline 中的任务都用这里的服务
+services:
+  - mariadb:10.2.14
+  - redis:6.2.5
 # 开始执行脚本前所需执行脚本
 before_script:
   - echo "begin ci"
@@ -17,6 +27,7 @@ after_script:
 # 该ci pipeline适合的场景，按照定义的顺序执行任务
 stages:
   - build
+  - test
 
 # 定义的任务
 build_rpm:
@@ -30,5 +41,18 @@ build_rpm:
   only:
     - /^rel-.*$/i
   # 指定哪个ci runner跑该工作
+  tags:
+    - nezha
+
+
+# nz rpm 安装测试
+nz_rpm_installation_test:
+  stage: test
+  script:
+    - env | sort
+    - chmod +x ./installtest/test.sh
+    - ./installtest/test.sh
+  only:
+    - /^rel-.*$/i
   tags:
     - nezha
