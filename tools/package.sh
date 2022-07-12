@@ -46,6 +46,9 @@ unzip -o nz-gui-*.zip -d $RPM_NZ_PATH/public
 # 解压 map/Tiles.zip 默认 1-7 级
 unzip -o -q Tiles.zip -d $RPM_NZ_PATH/public/static
 
+# 更新 config.json version
+echo "{\"baseUrl\":\"/\",\"version\":\"$CI_COMMIT_SHORT_SHA\"}" > $RPM_NZ_PATH/public/static/config.json
+
 # 移动nz.rpm
 mv nz-*.rpm $RPM_NZ_PATH/install
 cp ./tools/install.sh.template  $RPM_NZ_PATH/install
