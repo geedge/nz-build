@@ -21,6 +21,8 @@ NZ_AGENT_PKG="release/nz-agent/nz-agent-22.10.01.4a0ca2ef-Release.x86_64.rpm"
 NZ_GUI_PKG="release/nz-gui/nz-gui-6d72a5f7.zip"
 NZ_TALON_PKG="release/nz-talon/nz-talon-22.10.01.bdede800-Release.x86_64.rpm"
 
+# 依赖jdk 文件名
+JDK_FILENAME=jdk-8u202-linux-x64.tar.gz
 # 拉取依赖文件
 mc cp nz/$NZ_WEB_PKG ./
 mc cp nz/$NZ_AGENT_PKG ./
@@ -29,13 +31,18 @@ mc cp nz/$NZ_TALON_PKG ./
 mc cp nz/depends/exporter/generator.zip ./
 mc cp nz/depends/prometheus/promtool ./
 mc cp nz/depends/map/Tiles.zip ./
+mc cp nz/depends/jdk/$JDK_FILENAME ./
 
 # rpm 编译目录
 BUILD_PATH=$CUR_PWD/build
 RPM_NZ_PATH=$BUILD_PATH/opt/nezha/nz-web
+RPM_JDK_PATH=$RPM_NZ_PATH/jdk
 mkdir -p $BUILD_PATH $RPM_NZ_PATH $RPM_NZ_PATH/bin $RPM_NZ_PATH/install $RPM_NZ_PATH/config $RPM_NZ_PATH/generator $RPM_NZ_PATH/promtool $RPM_NZ_PATH/public $RPM_NZ_PATH/lib
+mkdir -p $RPM_JDK_PATH
 
 echo 'packaging  begin ...'
+# 解压jdk
+tar -xzf ./$JDK_FILENAME --strip-components 1 -C $RPM_JDK_PATH
 
 # 解压 nz-web.tar.gz
 tar -zxvf nz-web-*.tar.gz -C $RPM_NZ_PATH

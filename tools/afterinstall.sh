@@ -1,7 +1,11 @@
 #!/bin/sh
 
+WORK_DIR=/opt/nezha/nz-web
+
 # Find Java
-if [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]]; then
+if [[ -x "$WORK_DIR/jdk/bin/java" ]]; then
+    JAVA_EXE="$WORK_DIR/jdk/bin/java"
+elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]]; then
     JAVA_EXE="$JAVA_HOME/bin/java"
 elif type -p java > /dev/null 2>&1; then
     JAVA_EXE=$(type -p java)
