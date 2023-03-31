@@ -28,7 +28,7 @@ mc cp nz/$NZ_WEB_PKG ./
 mc cp nz/$NZ_AGENT_PKG ./
 mc cp nz/$NZ_GUI_PKG ./
 mc cp nz/$NZ_TALON_PKG ./
-mc cp nz/depends/exporter/generator.zip ./
+mc cp nz/depends/exporter/generator-0.21.0.linux-amd64.zip ./
 mc cp nz/depends/prometheus/promtool ./
 mc cp nz/depends/map/Tiles.zip ./
 mc cp nz/depends/jdk/$JDK_FILENAME ./
@@ -63,7 +63,7 @@ cp ./tools/lib*.so  $RPM_NZ_PATH/lib
 
 # 移动依赖工具
 mv promtool $RPM_NZ_PATH/promtool/
-unzip -o generator.zip -d $RPM_NZ_PATH/generator/
+unzip -o generator-0.21.0.linux-amd64.zip -d $RPM_NZ_PATH/generator/
 
 # 配置文件
 cp ./tools/nezha.properties $RPM_NZ_PATH/config
