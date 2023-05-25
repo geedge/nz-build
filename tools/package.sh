@@ -34,6 +34,8 @@ echo '[decompression
 
 # osm.pbf -> osm.mbtiles
 echo '[build osm.mbtiles file] [begin]'
+cat $CUR_PWD/tools/config.json
+chmod 777 $CUR_PWD/tools/config.json
 docker run --rm -v $CUR_PWD:$CUR_PWD tilemaker --config $CUR_PWD/tools/config.json --process $CUR_PWD/tools/process.lua --input $CUR_PWD/$SOURCE_OSM_PBF_FILE --output $CUR_PWD/temp.osm.mbtiles
 
 ls -hl $CUR_PWD/temp.osm.mbtiles
