@@ -32,6 +32,9 @@ tar -zxvf $MBUTIL_PKG
 echo '[decompression
  mbutil pkg] [finshed]'
 
+ls -hl $CUR_PWD
+ls -hl $CUR_PWD/tools
+
 # osm.pbf -> osm.mbtiles
 echo '[build osm.mbtiles file] [begin]'
 docker run --rm \
@@ -39,7 +42,7 @@ docker run --rm \
 -v $CUR_PWD/tools/config.json:/config.json \
 -v $CUR_PWD/tools/process.lua:/process.lua \
 --user $(id -u):$(id -g) tilemaker \
---config /config.json --process /process.lua \
+--config $CUR_PWD/tools/config.json --process $CUR_PWD/tools/process.lua \
 --input $CUR_PWD/$SOURCE_OSM_PBF_FILE --output $CUR_PWD/temp.osm.mbtiles
 
 ls -hl $CUR_PWD/temp.osm.mbtiles
