@@ -37,7 +37,7 @@ ls -hl $CUR_PWD/tools
 
 # osm.pbf -> osm.mbtiles
 echo '[build osm.mbtiles file] [begin]'
-docker run --rm \
+docker run --privileged --rm \
 -v $CUR_PWD:$CUR_PWD \
 --user $(id -u):$(id -g) tilemaker \
 --config $CUR_PWD/tools/config.json --process $CUR_PWD/tools/process.lua \
