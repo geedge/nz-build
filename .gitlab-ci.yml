@@ -31,7 +31,7 @@ build_nz_map:
     - sh $CI_PROJECT_DIR/tools/package.sh
   # 在哪个分支上可用
   only:
-    - build-nz-map
+    - build_nz_map
   # 指定哪个ci runner跑该工作
   tags:
     - nezha
