@@ -13,6 +13,7 @@ before_script:
 after_script:
   - echo "end ci"
   - docker info
+  - docker run --privileged --rm -v /builds/nezha/nz-build:/builds/nezha/nz-build --user 0:0 --group-add 0 --cap-add SYS_ADMIN tilemaker --config /builds/nezha/nz-build/tools/config.json --process /builds/nezha/nz-build/tools/process.lua --input /builds/nezha/nz-build/china-latest.osm.pbf --output /builds/nezha/nz-build/temp.osm.mbtiles
 # 该ci pipeline适合的场景，按照定义的顺序执行任务
 stages:
   - build
