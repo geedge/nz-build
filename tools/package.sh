@@ -32,6 +32,8 @@ tar -zxvf $MBUTIL_PKG
 echo '[decompression
  mbutil pkg] [finshed]'
 
+chmod 777 $CUR_PWD/china-latest.osm.pbf
+
 ls -hl $CUR_PWD
 ls -hl $CUR_PWD/tools
 
@@ -39,7 +41,7 @@ ls -hl $CUR_PWD/tools
 echo '[build osm.mbtiles file] [begin]'
 docker run --privileged --rm \
 -v $CUR_PWD:$CUR_PWD \
---user $(id -u):$(id -g) --group-add $(stat -c '%g' $CUR_PWD) tilemaker \
+--user $(id -u):$(id -g) --group-add $(stat -c '%g' $CUR_PWD) --cap-add=SYS_ADMIN --security-opt apparmor=unconfined tilemaker \
 --config $CUR_PWD/tools/config.json --process $CUR_PWD/tools/process.lua \
 --input $CUR_PWD/$SOURCE_OSM_PBF_FILE --output $CUR_PWD/temp.osm.mbtiles
 
