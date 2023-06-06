@@ -28,7 +28,7 @@ mc cp nz/$NZ_WEB_PKG ./
 mc cp nz/$NZ_AGENT_PKG ./
 mc cp nz/$NZ_GUI_PKG ./
 mc cp nz/$NZ_TALON_PKG ./
-mc cp nz/depends/exporter/generator.zip ./
+mc cp nz/depends/exporter/generator-0.21.0.linux-amd64.zip ./
 mc cp nz/depends/prometheus/promtool ./
 mc cp nz/depends/map/Tiles.zip ./
 mc cp nz/depends/jdk/$JDK_FILENAME ./
@@ -55,14 +55,15 @@ unzip -o -q Tiles.zip -d $RPM_NZ_PATH/public/static
 
 # 移动nz.rpm
 mv nz-*.rpm $RPM_NZ_PATH/install
-cp ./tools/install.sh.template  $RPM_NZ_PATH/install
+cp ./tools/install-agent.sh.template  $RPM_NZ_PATH/install
+cp ./tools/install-talon.sh.template  $RPM_NZ_PATH/install
 
 # license 校验依赖so
 cp ./tools/lib*.so  $RPM_NZ_PATH/lib
 
 # 移动依赖工具
 mv promtool $RPM_NZ_PATH/promtool/
-unzip -o generator.zip -d $RPM_NZ_PATH/generator/
+unzip -o generator-0.21.0.linux-amd64.zip -d $RPM_NZ_PATH/generator/
 
 # 配置文件
 cp ./tools/nezha.properties $RPM_NZ_PATH/config
