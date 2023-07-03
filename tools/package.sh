@@ -16,10 +16,10 @@ RPM_FULL_NAME=${PACKAGE_NAME}-${PACKAGE_VERSION}-${ITERATION}.x86_64.rpm
 mc alias set nz $MINIO_HOST $MINIO_USER $MINIO_PWD
 
 #各个依赖包版本
-NZ_WEB_PKG="release/nz-web/nz-web-rel-23.04.04-e35bfbf4.tar.gz"
-NZ_AGENT_PKG="release/nz-agent/nz-agent-23.04.01.25d77b78-Release.x86_64.rpm"
-NZ_GUI_PKG="release/nz-gui/nz-gui-3b92b329.zip"
-NZ_TALON_PKG="release/nz-talon/nz-talon-23.04.01.8e7b0c79-Release.x86_64.rpm"
+NZ_WEB_PKG="release/nz-web/nz-web-rel-23.04.05-d7f911cf.tar.gz"
+NZ_AGENT_PKG="release/nz-agent/nz-agent-23.04.02.25d77b78-Release.x86_64.rpm"
+NZ_GUI_PKG="release/nz-gui/nz-gui-e937b24b.zip"
+NZ_TALON_PKG="release/nz-talon/nz-talon-23.04.02.8e7b0c79-Release.x86_64.rpm"
 
 # 依赖jdk 文件名
 JDK_FILENAME=jdk-8u202-linux-x64.tar.gz
