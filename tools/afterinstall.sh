@@ -73,6 +73,53 @@ if [ 2 -eq $1 ];then
 				echo 'return config file '${i}
 				cp -f $TMP_PATH/config/$i $WEB_PATH/config/$i
 			fi	
-		done	
+		done
+
+        # nz 配置文件
+        # database.host 和 database.port 如果存在，拼接后赋值给 database.url
+        # redis.host 和 redis.port 如果存在，拼接后赋值给 redis.url
+        # 删除 database.host,database.port,redis.host,redis.port
+        # 新增 redis.mode=standalone
+        web_config_file=$WEB_PATH/config/nezha.properties
+        while IFS='=' read -r key value; do
+          key="${key// /}"
+          value="${value// /}"
+
+          case "$key" in
+            database.host)
+              database_host="$value"
+              ;;
+            database.port)
+              database_port="$value"
+              ;;
+            redis.host)
+              redis_host="$value"
+              ;;
+            redis.port)
+              redis_port="$value"
+              ;;
+            *)
+          esac
+        done < "$web_config_file"
+
+        if [[ -n $database_host ]] && [[ -n $database_port ]]; then
+          database_url="${database_host}:${database_port}"
+          sed -i '/^database\.\(host\|port\)=/d' "$web_config_file"
+          echo "database.url=$database_url" >> "$web_config_file"
+
+          echo "nezha.properties add properties. key='database.url' value=$database_url"
+        fi
+
+        if [[ -n $redis_host ]] && [[ -n $redis_port ]]; then
+          redis_url="${redis_host}:${redis_port}"
+
+
+          sed -i '/^redis\.\(host\|port\)=/d' "$web_config_file"
+          echo "redis.url=$redis_url" >> "$web_config_file"
+          echo "redis.mode=standalone" >> "$web_config_file"
+
+          echo "nezha.properties add properties. key='redis.mode' value=standalone"
+          echo "nezha.properties add properties. key='redis.url' value=$redis_url"
+        fi
 	fi	
 fi
