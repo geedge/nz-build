@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<logger name="org.springframework.web" level="info" />
-	<logger name="org.springboot.sample" level="info" />
-	<logger name="org.apache" level="info" />
+	<logger name="org.springboot.sample" level="warn" />
+	<logger name="org.apache" level="warn" />
 	<logger name="org.springframework" level="info" />
 	<logger name="druid.sql" level="info" />
-	<logger name="com.springboot" level="debug" />
 
 	<property name="log.path" value="/var/log/nezha/nz-web/" />
     <!-- 输出格式 -->
@@ -16,7 +15,7 @@
     <!-- 保留的归档文件的最大数量 -->
     <property name="max.history" value="30"/>
     <!-- 控制所有归档日志文件的总大小 -->
-    <property name="total.size.cap" value="15GB"/>
+    <property name="total.size.cap" value="10GB"/>
    
 	<!-- 2.2 level为 INFO 日志，时间滚动输出 -->
 	<appender name="LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
