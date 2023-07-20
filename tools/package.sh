@@ -51,7 +51,7 @@ echo '[build osm.mbtiles file] [finshed]'
 # osm.mbtiles -> pbf
 echo '[export an mbtiles file] [begin] [directory: mbutil/work]'
 rm -rf $CUR_PWD/mbutil/work
-sh $CUR_PWD/mbutil/mb-util --image_format=pbf  $CUR_PWD/temp.osm.mbtiles $CUR_PWD/mbutil/work
+./mbutil/mb-util --image_format=pbf  $CUR_PWD/temp.osm.mbtiles $CUR_PWD/mbutil/work
 
 sh $CUR_PWD/tools/ungzip-pbf.sh $CUR_PWD/mbutil/work
 
