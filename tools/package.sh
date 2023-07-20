@@ -44,7 +44,7 @@ docker run --privileged --rm \
 -w $CUR_PWD \
 --user $(id -u):$(id -g) --group-add $(stat -c '%g' $CUR_PWD) --cap-add SYS_ADMIN tilemaker \
 --config $CUR_PWD/tools/config.json --process $CUR_PWD/tools/process.lua \
---input $CUR_PWD/$SOURCE_OSM_PBF_FILE --output $CUR_PWD/temp.osm.mbtiles ls $CUR_PWD
+--input $CUR_PWD/$SOURCE_OSM_PBF_FILE --output $CUR_PWD/temp.osm.mbtiles ls
 
 ls -hl $CUR_PWD/temp.osm.mbtiles
 echo '[build osm.mbtiles file] [finshed]'
