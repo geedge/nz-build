@@ -2,6 +2,30 @@
 
 WORK_DIR=/opt/nezha/nz-web
 
+fn_init_config(){
+  # nz-web component
+  cat > /opt/nezha/nz-web/config/config.conf <<EOF
+OPTION=" "
+EOF
+}
+
+fn_init_nz_web_service(){
+  cat > /usr/lib/systemd/system/nz-web.service <<EOF
+[Unit]
+Description=nz-web
+After=network.target
+[Service]
+WorkingDirectory=/opt/nezha/nz-web
+EnvironmentFile=/opt/nezha/nz-web/config/config.conf
+ExecStart=/opt/nezha/nz-web/xjar ${JAVA_EXE} -jar /opt/nezha/nz-web/nz-admin.xjar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/nezha/nz-web/logs \$OPTION
+RestartSec=10s
+Restart=always
+[Install]
+WantedBy=multi-user.target
+EOF
+chmod 755 /usr/lib/systemd/system/nz-web.service
+}
+
 # Find Java
 if [[ -x "$WORK_DIR/jdk/bin/java" ]]; then
     JAVA_EXE="$WORK_DIR/jdk/bin/java"
@@ -24,20 +48,9 @@ LIB_PATH=/usr/lib
 cp -f $WEB_PATH/lib/* $LIB_PATH
 # install
 if [ 1 -eq $1 ];then
+    fn_init_config
+    fn_init_nz_web_service
 
-	cd /usr/lib/systemd/system
-	echo 'start registory service file...'
-	echo '[Unit]' >> nz-web.service
-	echo 'Description=nz-web' >> nz-web.service
-	echo 'After=network.target' >> nz-web.service
-	echo '[Service]' >> nz-web.service
-	echo 'WorkingDirectory=/opt/nezha/nz-web' >> nz-web.service
-	echo 'ExecStart=/opt/nezha/nz-web/xjar '${JAVA_EXE}' -jar /opt/nezha/nz-web/nz-admin.xjar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/nezha/nz-web/logs' >> nz-web.service
-	echo 'RestartSec=10s' >> nz-web.service
-	echo 'Restart=always' >> nz-web.service
-	echo '[Install]' >> nz-web.service
-	echo 'WantedBy=multi-user.target' >> nz-web.service
-	chmod 755 nz-web.service
 	systemctl daemon-reload
 	systemctl enable nz-web.service
 	systemctl start nz-web.service
@@ -65,6 +78,8 @@ compareMD5()
 }
 # update
 if [ 2 -eq $1 ];then
+    fn_init_config
+    fn_init_nz_web_service
 
 	echo 'move backup config file...'
 	if [ -d $TMP_PATH ];then
@@ -74,5 +89,9 @@ if [ 2 -eq $1 ];then
 				cp -f $TMP_PATH/config/$i $WEB_PATH/config/$i
 			fi	
 		done	
-	fi	
+	fi
+
+    systemctl daemon-reload
+    systemctl enable nz-web.service
+    echo 'update nz-web success !'
 fi
