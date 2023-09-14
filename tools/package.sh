@@ -58,7 +58,7 @@ mv nz-*.rpm $RPM_NZ_PATH/install
 cp ./tools/install-agent.sh.template  $RPM_NZ_PATH/install
 cp ./tools/install-talon.sh.template  $RPM_NZ_PATH/install
 
-# license 校验依赖so
+# license&acc 校验依赖so
 cp ./tools/lib*.so  $RPM_NZ_PATH/lib
 
 # 移动依赖工具
