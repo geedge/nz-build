@@ -18,7 +18,7 @@ mc alias set nz $MINIO_HOST $MINIO_USER $MINIO_PWD
 #各个依赖包版本
 NZ_WEB_PKG="release/nz-web/nz-web-rel-23.07.08-321ca7c8.tar.gz"
 NZ_AGENT_PKG="release/nz-agent/nz-agent-23.07.03.968406ee-Release.x86_64.rpm"
-NZ_GUI_PKG="release/nz-gui/nz-gui-94af48ab.zip"
+NZ_GUI_PKG="release/nz-gui/nz-gui-3bc736a6.zip"
 NZ_TALON_PKG="release/nz-talon/nz-talon-23.07.02.665daa11-Release.x86_64.rpm"
 
 # 依赖jdk 文件名
