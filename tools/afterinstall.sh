@@ -2,13 +2,6 @@
 
 WORK_DIR=/opt/nezha/nz-web
 
-fn_init_config(){
-  # nz-web component
-  cat > /opt/nezha/nz-web/config/config.conf <<EOF
-OPTION=" "
-EOF
-}
-
 fn_init_nz_web_service(){
   cat > /usr/lib/systemd/system/nz-web.service <<EOF
 [Unit]
@@ -16,7 +9,7 @@ Description=nz-web
 After=network.target
 [Service]
 WorkingDirectory=/opt/nezha/nz-web
-EnvironmentFile=/opt/nezha/nz-web/config/config.conf
+EnvironmentFile=-/opt/nezha/nz-web/config/config.conf
 ExecStart=/opt/nezha/nz-web/xjar ${JAVA_EXE} -jar /opt/nezha/nz-web/nz-admin.xjar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/nezha/nz-web/logs \$OPTION
 RestartSec=10s
 Restart=always
@@ -48,7 +41,6 @@ LIB_PATH=/usr/lib
 cp -f $WEB_PATH/lib/* $LIB_PATH
 # install
 if [ 1 -eq $1 ];then
-    fn_init_config
     fn_init_nz_web_service
 
 	systemctl daemon-reload
@@ -78,12 +70,11 @@ compareMD5()
 }
 # update
 if [ 2 -eq $1 ];then
-    fn_init_config
     fn_init_nz_web_service
 
 	echo 'move backup config file...'
 	if [ -d $TMP_PATH ];then
-		for i in $(ls $WEB_PATH/config);do
+		for i in $(ls $TMP_PATH/config);do
 			if [ 1 -eq `compareMD5 $WEB_PATH/config/$i $TMP_PATH/config/$i` ];then
 				echo 'return config file '${i}
 				cp -f $TMP_PATH/config/$i $WEB_PATH/config/$i
