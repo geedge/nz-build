@@ -22,7 +22,7 @@ NZ_GUI_PKG="release/nz-gui/nz-gui-aacd54ee.zip"
 NZ_TALON_PKG="release/nz-talon/nz-talon-23.07.03.ed091f73-Release.x86_64.rpm"
 
 # 依赖jdk 文件名
-JDK_FILENAME=jdk-8u202-linux-x64.tar.gz
+JDK_FILENAME=openjdk-21_linux-x64_bin.tar.gz
 # 拉取依赖文件
 mc cp nz/$NZ_WEB_PKG ./
 mc cp nz/$NZ_AGENT_PKG ./
