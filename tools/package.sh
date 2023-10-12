@@ -23,6 +23,8 @@ NZ_TALON_PKG="release/nz-talon/nz-talon-23.10.02.4bd4109f-Release.x86_64.rpm"
 
 # 依赖jdk 文件名
 JDK_FILENAME=openjdk-21_linux-x64_bin.tar.gz
+CHROME_FILENAME=chrome-117.0.5938.149-linux64.zip
+CHROMEDRIVER_FILENAME=chromedriver-117.0.5938.149-linux64.zip
 # 拉取依赖文件
 mc cp nz/$NZ_WEB_PKG ./
 mc cp nz/$NZ_AGENT_PKG ./
@@ -32,6 +34,8 @@ mc cp nz/depends/exporter/generator-0.21.0.linux-amd64.zip ./
 mc cp nz/depends/prometheus/promtool ./
 mc cp nz/depends/map/Tiles.zip ./
 mc cp nz/depends/jdk/$JDK_FILENAME ./
+mc cp nz/depends/chrome/$CHROME_FILENAME ./
+mc cp nz/depends/chrome/$CHROMEDRIVER_FILENAME ./
 
 # rpm 编译目录
 BUILD_PATH=$CUR_PWD/build
@@ -43,6 +47,10 @@ mkdir -p $RPM_JDK_PATH
 echo 'packaging  begin ...'
 # 解压jdk
 tar -xzf ./$JDK_FILENAME --strip-components 1 -C $RPM_JDK_PATH
+
+# 解压 chrome&chromedriver 依赖
+unzip -oq  ./$CHROME_FILENAME -d $RPM_NZ_PATH/lib
+unzip -oqj ./$CHROMEDRIVER_FILENAME -d $RPM_NZ_PATH/lib
 
 # 解压 nz-web.tar.gz
 tar -zxvf nz-web-*.tar.gz -C $RPM_NZ_PATH
