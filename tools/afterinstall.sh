@@ -10,7 +10,7 @@ After=network.target
 [Service]
 WorkingDirectory=/opt/nezha/nz-web
 EnvironmentFile=-/opt/nezha/nz-web/config/config.conf
-ExecStart=/opt/nezha/nz-web/xjar ${JAVA_EXE} --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/jdk.internal.loader=ALL-UNNAMED -jar /opt/nezha/nz-web/nz-admin.xjar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/nezha/nz-web/logs \$OPTION
+ExecStart=/opt/nezha/nz-web/xjar ${JAVA_EXE} --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -jar /opt/nezha/nz-web/nz-admin.xjar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/nezha/nz-web/logs \$OPTION
 RestartSec=10s
 Restart=always
 [Install]
