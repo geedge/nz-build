@@ -38,7 +38,7 @@ cd $RPM_INSTALL_PATH
 IS_INSTALLED=`rpm -qa | grep ${RPM_FULL_NAME/.rpm/}`
 if [ $? -eq 0 ];then
     echo 'install success'
-    bash -c "setsid ./xjar java --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED-jar nz-admin.xjar &"
+    bash -c "setsid ./xjar java --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -jar nz-admin.xjar &"
 else
     echo 'install failed'
     exit 1
