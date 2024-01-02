@@ -14,7 +14,7 @@ TILEMAKER_PKG="tilemaker-2.4.0.docker-image.tar.gz"
 SOURCE_OSM_PBF_FILE="china-latest.osm.pbf"
 
 # output filename
-OUTPUT_FILE_NAME="china-8-11-tiles.tar.gz"
+OUTPUT_FILE_NAME="china-0-7-tiles.tar.gz"
 
 mc cp nz/depends/tilemaker/$MBUTIL_PKG ./
 mc cp nz/depends/tilemaker/$TILEMAKER_PKG ./
