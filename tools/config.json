@@ -34,9 +34,9 @@
     "mountain_peak":     { "minzoom": 11, "maxzoom": 14 }
   },
   "settings": {
-    "minzoom": 8,
-    "maxzoom": 11,
-    "basezoom": 11,
+    "minzoom": 0,
+    "maxzoom": 7,
+    "basezoom": 7,
     "include_ids": false,
     "combine_below": 14,
     "name": "Tilemaker to OpenMapTiles schema",
