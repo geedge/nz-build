@@ -4,7 +4,6 @@ CUR_PWD=`pwd`
 
 MYSQL_HOSTNAME="mariadb"
 MYSQL_ROOTUSERNAME="root"
-REDIS_HOSTNAME="redis"
 
 RPM_PACKAGE_NAME="nz"
 RPM_INSTALL_PATH="/opt/nezha/nz-web"
@@ -77,7 +76,7 @@ else
 fi
 
 # check_db
-REQUEST_BODY="{\"database\":{\"host\":\"$MYSQL_HOSTNAME\",\"port\":$MYSQL_PORT,\"name\":\"$MYSQL_DATABASE\",\"username\":\"$MYSQL_ROOTUSERNAME\",\"pin\":\"$MYSQL_ROOT_PASSWORD\"},\"code\":\"$VALIDATE_CODE\"}"
+REQUEST_BODY="{\"database\":{\"url\":[\"$MYSQL_HOSTNAME:$MYSQL_PORT\"],\"name\":\"$MYSQL_DATABASE\",\"username\":\"$MYSQL_ROOTUSERNAME\",\"pin\":\"$MYSQL_ROOT_PASSWORD\"},\"code\":\"$VALIDATE_CODE\"}"
 CHECKDB=`curl -k -m 10 -o /dev/null -s -w %{http_code} -X POST -H 'Content-Type:application/json;charset=UTF-8' -d "${REQUEST_BODY}" 'http://localhost/setup/checkDb'`
 if [ $CHECKDB -eq 200 ];then
     echo "db is connected"
@@ -86,20 +85,10 @@ else
     exit 1
 fi
 
-# check_redis
-REQUEST_BODY="{\"redis\":{\"host\":\"$REDIS_HOSTNAME\",\"port\":$REDIS_PORT,\"pin\":\"\"},\"code\":\"$VALIDATE_CODE\"}"
-CHECKREDIS=`curl -k -m 10 -o /dev/null -s -w %{http_code} -X POST -H 'Content-Type:application/json;charset=UTF-8' -d "${REQUEST_BODY}" 'http://localhost/setup/checkRedis'`
-if [ $CHECKREDIS -eq 200 ];then
-    echo "redis is connected"
-else
-    echo "redis connection exception"
-    exit 1
-fi
-
 # config
-REQUEST_BODY="{\"database\":{\"host\":\"$MYSQL_HOSTNAME\",\"port\":$MYSQL_PORT,\"name\":\"$MYSQL_DATABASE\",\"username\":\"$MYSQL_ROOTUSERNAME\",\"pin\":\"$MYSQL_ROOT_PASSWORD\"},\
-		\"redis\":{\"host\":\"$REDIS_HOSTNAME\",\"port\":$REDIS_PORT,\"pin\":\"\"},\
-		\"system\":{\"username\":\"admin\",\"pin\":\"admin\",\"alertPrefix\":\"\",\"haMode\":1,\"haVip\":\"\",\"federationEnabled\":1},\
+REQUEST_BODY="{\"database\":{\"url\":[\"$MYSQL_HOSTNAME:$MYSQL_PORT\"],\"name\":\"$MYSQL_DATABASE\",\"username\":\"$MYSQL_ROOTUSERNAME\",\"pin\":\"$MYSQL_ROOT_PASSWORD\"},\
+		\"adminUser\":{\"username\":\"admin\",\"pin\":\"admin\"},\
+		\"system\":{\"timezone\":\"Asia/Shanghai\",\"language\":\"en\",\"federationEnabled\":\"1\",\"asset_ping_from\":\"1\",\"asset_ping_interval\":\"300\",\"default_scrape_interval\":\"30\",\"default_scrape_timeout\":\"30\",\"snmp_trap_listen_port\":\"162\"},\
 		\"code\":\"${VALIDATE_CODE}\"}"
 CONFIG_RESULT=`curl -k -m 10 -o /dev/null -s -w %{http_code} -X POST -H 'Content-Type:application/json;charset=UTF-8' -d "${REQUEST_BODY}" 'http://localhost/setup/config'`
 if [ $CONFIG_RESULT -eq 200 ];then
