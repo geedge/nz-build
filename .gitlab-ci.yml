@@ -26,7 +26,7 @@ build_rpm:
     - ./tools/package.sh
   # 在哪个分支上可用
   only:
-    - /^rel-.*$/i
+    - /^nz_node_exporter-.*$/i
   # 指定哪个ci runner跑该工作
   tags:
     - nezha
