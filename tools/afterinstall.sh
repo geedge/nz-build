@@ -1,88 +1,116 @@
-#!/bin/sh
+#!/bin/bash
 
-WORK_DIR=/opt/nezha/nz-web
+WORK_DIR=/opt/nezha/node_exporter
 
-fn_init_nz_web_service(){
-  cat > /usr/lib/systemd/system/nz-web.service <<EOF
+fn_init_service(){
+    cat > /usr/lib/systemd/system/nz-node-exporter.service <<"EOF"
 [Unit]
-Description=nz-web
+Description=nz-node-exporter
 After=network.target
 [Service]
-WorkingDirectory=/opt/nezha/nz-web
-EnvironmentFile=-/opt/nezha/nz-web/config/config.conf
-ExecStart=/opt/nezha/nz-web/xjar ${JAVA_EXE} --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/jdk.internal.loader=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -jar /opt/nezha/nz-web/nz-admin.xjar -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/nezha/nz-web/logs \$OPTION
+WorkingDirectory=/opt/nezha/node_exporter
+EnvironmentFile=-/opt/nezha/node_exporter/config.conf
+ExecStart=/opt/nezha/node_exporter/node_exporter $OPTION
 RestartSec=10s
 Restart=always
+LimitNOFILE=524288
 [Install]
 WantedBy=multi-user.target
 EOF
-chmod 755 /usr/lib/systemd/system/nz-web.service
 }
 
-# Find Java
-if [[ -x "$WORK_DIR/jdk/bin/java" ]]; then
-    JAVA_EXE="$WORK_DIR/jdk/bin/java"
-elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]]; then
-    JAVA_EXE="$JAVA_HOME/bin/java"
-elif type -p java > /dev/null 2>&1; then
-    JAVA_EXE=$(type -p java)
-elif [[ -x "/usr/bin/java" ]];  then
-    JAVA_EXE="/usr/bin/java"
-else
-    echo "Unable to find Java"
-    JAVA_EXE="java"
-#    exit 1
-fi
+fn_init_config(){
+    cat > /opt/nezha/node_exporter/config.conf <<EOF
+OPTION=" --web.listen-address='0.0.0.0:19100' --collector.textfile.directory='/opt/nezha/node_exporter/prom' --collector.os --collector.cpu.info --collector.meminfo --collector.diskstats --collector.filesystem --collector.netdev --collector.netdev.address-info "
+EOF
+}
 
-WEB_PATH=/opt/nezha/nz-web
-TMP_PATH=/tmp/nezha/nz-web
-LIB_PATH=/usr/lib
+# 初始化 rsyslog & logrotate 配置
+fn_init_syslog_logrotate_config(){
+  cat > /etc/rsyslog.d/nz-node-exporter.conf << "EOF"
+if $programname == 'node_exporter' then {
+    /var/log/nezha/nz-node-exporter/nz-node-exporter.log
+    stop
+}
+EOF
+  cat > /etc/logrotate.d/nz-node-exporter << "EOF"
+/var/log/nezha/nz-node-exporter/*.log {
+    daily
+    missingok
+    maxsize 100M
+    rotate 7
+    copytruncate
+    compress
+}
+EOF
+}
 
-cp -f $WEB_PATH/lib/* $LIB_PATH
+compareMD5(){
+  if [ ! -f $1 ] || [ ! -f $2 ];then
+    echo 1
+    return 1
+  fi
+
+  local f1MD5=`md5sum $1|awk '{print $1}'`
+  local f2MD5=`md5sum $2|awk '{print $1}'`
+
+  if [ ${f1MD5} = ${f2MD5} ];then
+      echo 0
+      return 0
+  else
+      echo 1
+      return 1
+  fi
+}
+
+# 还原配置文件
+# $1 需要还原的文件目录 /opt/nezha/node_exporter
+# $2 备份文件目录       /tmp/nezha/node_exporter
+restoreComponentConfig(){
+  if [ ! -d $1 ] || [ ! -d $2 ];then
+    echo "Directory does not exist"
+    return 1
+  fi
+
+  for i in $(ls $2);do
+    if [ 1 -eq `compareMD5 $1/$i $2/$i` ];then
+      echo 'return config file '$1/${i}
+      cp -f $2/$i $1/$i
+    fi
+  done
+}
+
 # install
 if [ 1 -eq $1 ];then
-    fn_init_nz_web_service
+  fn_init_config
+  fn_init_service
+  fn_init_syslog_logrotate_config
 
-	systemctl daemon-reload
-	systemctl enable nz-web.service
-	systemctl start nz-web.service
-	
-	echo 'install success !'
-	echo 'You should see the NEZHA setup page come up by going to:http://SERVER-IP/'
+  systemctl daemon-reload
+  systemctl enable nz-node-exporter && systemctl restart nz-node-exporter
+  systemctl enable crond && systemctl restart crond
+  systemctl enable rsyslog && systemctl restart rsyslog
+  echo 'install nz-node-exporter success !'
 fi
-compareMD5()
-{
-        if [ ! -f $1 ] || [ ! -f $2 ];then
-		echo 1
-		return 1
-	fi
-	
-	local f1MD5=`md5sum $1|awk '{print $1}'`
-        local f2MD5=`md5sum $2|awk '{print $1}'`
 
-        if [ ${f1MD5} = ${f2MD5} ];then
-                echo 0
-                return 0
-        else
-                echo 1
-                return 1
-        fi
-}
 # update
 if [ 2 -eq $1 ];then
-    fn_init_nz_web_service
+  fn_init_config
+  fn_init_service
+  fn_init_syslog_logrotate_config
 
-	echo 'move backup config file...'
-	if [ -d $TMP_PATH ];then
-		for i in $(ls $TMP_PATH/config);do
-			if [ 1 -eq `compareMD5 $WEB_PATH/config/$i $TMP_PATH/config/$i` ];then
-				echo 'return config file '${i}
-				cp -f $TMP_PATH/config/$i $WEB_PATH/config/$i
-			fi	
-		done	
-	fi
+  # restore nz-node-exporter config
+  NZ_NODE_EXPORTER_PATH=/opt/nezha/node_exporter
+  TMP_PATH=/tmp/nezha/node_exporter
+  echo 'move backup config file...'
+  if [ -d $TMP_PATH ];then
+    restoreComponentConfig $NZ_NODE_EXPORTER_PATH $TMP_PATH
+  fi
 
-    systemctl daemon-reload
-    systemctl enable nz-web.service
-    echo 'update nz-web success !'
+  # restart all components
+  systemctl daemon-reload
+  systemctl enable nz-node-exporter && systemctl restart nz-node-exporter
+  systemctl enable crond && systemctl restart crond
+  systemctl enable rsyslog && systemctl restart rsyslog
+  echo 'update nz-node-exporter success !'
 fi

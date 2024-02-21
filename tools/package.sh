@@ -2,7 +2,7 @@
 set -evx
 CUR_PWD=`pwd`
 
-PACKAGE_NAME=nz
+PACKAGE_NAME=nz-node-exporter
 BRANCH_ARRAY=(${CI_COMMIT_REF_NAME//-/ })
 PACKAGE_VERSION=${BRANCH_ARRAY[1]}.$CI_COMMIT_SHORT_SHA
 ITERATION=Beta
@@ -15,74 +15,22 @@ RPM_FULL_NAME=${PACKAGE_NAME}-${PACKAGE_VERSION}-${ITERATION}.x86_64.rpm
 # 初始化 minio
 mc alias set nz $MINIO_HOST $MINIO_USER $MINIO_PWD
 
-#各个依赖包版本
-NZ_WEB_PKG="release/nz-web/nz-web-rel-23.10.09-5a48955e.tar.gz"
-NZ_AGENT_PKG="release/nz-agent/nz-agent-23.10.02.c491be76-Release.x86_64.rpm"
-NZ_GUI_PKG="release/nz-gui/nz-gui-7caa90d6.zip"
-NZ_TALON_PKG="release/nz-talon/nz-talon-23.10.02.4bd4109f-Release.x86_64.rpm"
+#依赖包版本
+NODE_EXPORTER_PKG=node_exporter-1.7.0.linux-amd64.tar.gz
 
-# 依赖jdk 文件名
-JDK_FILENAME=openjdk-21_linux-x64_bin.tar.gz
-CHROME_FILENAME=chrome-117.0.5938.149-linux64.zip
-CHROMEDRIVER_FILENAME=chromedriver-117.0.5938.149-linux64.zip
 # 拉取依赖文件
-mc cp nz/$NZ_WEB_PKG ./
-mc cp nz/$NZ_AGENT_PKG ./
-mc cp nz/$NZ_GUI_PKG ./
-mc cp nz/$NZ_TALON_PKG ./
-mc cp nz/depends/exporter/generator-0.21.0.linux-amd64.zip ./
-mc cp nz/depends/prometheus/promtool ./
-mc cp nz/depends/map/Tiles.zip ./
-mc cp nz/depends/jdk/$JDK_FILENAME ./
-mc cp nz/depends/chrome/$CHROME_FILENAME ./
-mc cp nz/depends/chrome/$CHROMEDRIVER_FILENAME ./
+mc cp nz/depends/exporter/$NODE_EXPORTER_PKG ./
 
 # rpm 编译目录
 BUILD_PATH=$CUR_PWD/build
-RPM_NZ_PATH=$BUILD_PATH/opt/nezha/nz-web
-RPM_JDK_PATH=$RPM_NZ_PATH/jdk
-mkdir -p $BUILD_PATH $RPM_NZ_PATH $RPM_NZ_PATH/bin $RPM_NZ_PATH/install $RPM_NZ_PATH/config $RPM_NZ_PATH/generator $RPM_NZ_PATH/promtool $RPM_NZ_PATH/public $RPM_NZ_PATH/lib
-mkdir -p $RPM_JDK_PATH
+RPM_NZ_NODE_EXPORTER_PATH=$BUILD_PATH/opt/nezha/node_exporter
+
+mkdir -p $BUILD_PATH $RPM_NZ_NODE_EXPORTER_PATH $RPM_NZ_NODE_EXPORTER_PATH/prom
 
 echo 'packaging  begin ...'
-# 解压jdk
-tar -xzf ./$JDK_FILENAME --strip-components 1 -C $RPM_JDK_PATH
 
-# 解压 chrome&chromedriver 依赖
-unzip -oq  ./$CHROME_FILENAME -d $RPM_NZ_PATH/lib
-unzip -oqj ./$CHROMEDRIVER_FILENAME -d $RPM_NZ_PATH/lib
-
-# 解压 nz-web.tar.gz
-tar -zxvf nz-web-*.tar.gz -C $RPM_NZ_PATH
-
-# 解压 nz-gui.zip
-unzip -o nz-gui-*.zip -d $RPM_NZ_PATH/public
-
-# 解压 map/Tiles.zip 默认 1-7 级
-unzip -o -q Tiles.zip -d $RPM_NZ_PATH/public/static
-
-# 移动nz.rpm
-mv nz-*.rpm $RPM_NZ_PATH/install
-cp ./tools/install-agent.sh.template  $RPM_NZ_PATH/install
-cp ./tools/install-talon.sh.template  $RPM_NZ_PATH/install
-
-# license&acc 校验依赖so
-cp ./tools/lib*.so  $RPM_NZ_PATH/lib
-
-# 移动依赖工具
-mv promtool $RPM_NZ_PATH/promtool/
-unzip -o generator-0.21.0.linux-amd64.zip -d $RPM_NZ_PATH/generator/
-
-# 配置文件
-cp ./tools/nezha.properties $RPM_NZ_PATH/config
-cp ./tools/logback-spring.xml $RPM_NZ_PATH/config
-
-# 设置可执行权限
-chmod +x $RPM_NZ_PATH/xjar
-chmod +x $RPM_NZ_PATH/promtool/promtool
-chmod +x $RPM_NZ_PATH/generator/generator
-
-
+# 解压
+tar -xzf ./$NODE_EXPORTER_PKG --strip-components 1 -C $RPM_NZ_NODE_EXPORTER_PATH
 
 fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATION} --rpm-os 'linux'  \
 	--pre-install ./tools/beforeinstall.sh  \
