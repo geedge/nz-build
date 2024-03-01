@@ -19,7 +19,7 @@ mc alias set nz $MINIO_HOST $MINIO_USER $MINIO_PWD
 NZ_WEB_PKG="release/nz-web/nz-web-rel-24.01.05-8036958d.tar.gz"
 NZ_AGENT_PKG="release/nz-agent/nz-agent-24.01.01.f4d29ba5-Release.x86_64.rpm"
 NZ_GUI_PKG="release/nz-gui/nz-gui-1100c8c1.zip"
-NZ_TALON_PKG="release/nz-talon/nz-talon-24.01.02.7d7f350e-Release.x86_64.rpm"
+NZ_TALON_PKG="release/nz-talon/nz-talon-24.01.03.58a61ff4-Release.x86_64.rpm"
 
 # 依赖jdk 文件名
 JDK_FILENAME=openjdk-21_linux-x64_bin.tar.gz
