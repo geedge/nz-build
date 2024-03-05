@@ -21,7 +21,7 @@ EOF
 
 fn_init_config(){
     cat > /opt/nezha/node_exporter/config.conf <<EOF
-OPTION=" --web.listen-address='0.0.0.0:19100' --collector.textfile.directory='/opt/nezha/node_exporter/prom' --collector.os --collector.cpu.info --collector.meminfo --collector.diskstats --collector.filesystem --collector.netdev --collector.netdev.address-info "
+OPTION=" --web.listen-address='0.0.0.0:19100' --collector.textfile.directory='/opt/nezha/node_exporter/prom' --collector.os --collector.cpu.info --collector.meminfo --collector.diskstats --collector.filesystem --collector.netdev --collector.netdev.address-info --collector.network_route --collector.cpu.info.flags-include='.*' "
 EOF
 }
 
