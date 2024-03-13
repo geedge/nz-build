@@ -12,6 +12,13 @@ fi
 
 RPM_FULL_NAME=${PACKAGE_NAME}-${PACKAGE_VERSION}-${ITERATION}.x86_64.rpm
 
+# NZ FTP 服务器信息
+# 主要版本 24.01
+MAJOR_VERSION=$(echo ${BRANCH_ARRAY[1]} | cut -d "." -f 1,2)
+# 创建目录 /Nezha/NZ-V24.01/NZ-V24.01.08/
+FTP_MAJOR_VERSION_PATH="NZ-V""$MAJOR_VERSION"
+FTP_SPECIFIC_VERSION_PATH="$FTP_MAJOR_VERSION_PATH/""NZ-V""${BRANCH_ARRAY[1]}/"
+
 # 初始化 minio
 mc alias set nz $MINIO_HOST $MINIO_USER $MINIO_PWD
 
@@ -98,5 +105,9 @@ cd $CUR_PWD
 # 上传编译的rpm 文件
 mc cp $BUILD_PATH/$RPM_FULL_NAME nz/release/$PACKAGE_NAME/$RPM_FULL_NAME
 mc cp $BUILD_PATH/$RPM_FULL_NAME.md5sum.txt nz/release/$PACKAGE_NAME/$RPM_FULL_NAME.md5sum.txt
+
+# 上传 ftp 服务器
+curl -s -o /dev/null -Q "-*MKD $FTP_MAJOR_VERSION_PATH"  -Q "-*MKD $FTP_SPECIFIC_VERSION_PATH" -u $FTP_USER:$FTP_PWD $FTP_HOST
+curl $FTP_HOST$FTP_SPECIFIC_VERSION_PATH -u $FTP_USER:$FTP_PWD -T "{$BUILD_PATH/$RPM_FULL_NAME,$BUILD_PATH/$RPM_FULL_NAME.md5sum.txt}"
 
 echo 'package  finished'

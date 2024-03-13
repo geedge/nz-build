@@ -7,6 +7,10 @@ variables:
   MINIO_USER: 'admin'
   MINIO_PWD: "Nezha@02!"
   MAVEN_REPO: "/etc/maven/repository/"
+  # ftp 连接信息
+  FTP_HOST: 'ftp://192.168.44.24/Nezha/'
+  FTP_USER: 'Nezha'
+  FTP_PWD: 'Nezha_qaz12#'
   # mariadb 数据库定义（非必须）
   MYSQL_DATABASE: "nezha"
   # mariadb 密码配置（必须），注意变量名是 MYSQL_ROOT_PASSWORD
