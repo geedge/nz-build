@@ -75,6 +75,7 @@ cp ./tools/install-talon.sh.template  $RPM_NZ_PATH/install
 
 # license&acc 校验依赖so
 cp ./tools/lib*.so  $RPM_NZ_PATH/lib
+cp ./tools/hasp_rus $RPM_NZ_PATH/lib
 
 # 移动依赖工具
 mv promtool $RPM_NZ_PATH/promtool/
@@ -88,6 +89,7 @@ cp ./tools/logback-spring.xml $RPM_NZ_PATH/config
 chmod +x $RPM_NZ_PATH/xjar
 chmod +x $RPM_NZ_PATH/promtool/promtool
 chmod +x $RPM_NZ_PATH/generator/generator
+chmod +x $RPM_NZ_PATH/lib/hasp_rus
 
 
 
