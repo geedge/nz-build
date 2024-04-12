@@ -34,9 +34,9 @@
     "mountain_peak":     { "minzoom": 11, "maxzoom": 14 }
   },
   "settings": {
-    "minzoom": 0,
-    "maxzoom": 7,
-    "basezoom": 7,
+    "minzoom": 8,
+    "maxzoom": 14,
+    "basezoom": 14,
     "include_ids": false,
     "bounding_box":[92.3032344909, 9.93295990645, 101.180005324, 28.335945136],
     "combine_below": 14,
