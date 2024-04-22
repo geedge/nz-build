@@ -14,7 +14,7 @@ TILEMAKER_PKG="tilemaker-2.4.0.docker-image.tar.gz"
 SOURCE_OSM_PBF_FILE="myanmar-latest.osm.pbf"
 
 # output filename
-OUTPUT_FILE_NAME="myanmar-8-9-tiles.tar.gz"
+OUTPUT_FILE_NAME="myanmar-7-11-tiles.tar.gz"
 
 mc cp nz/depends/tilemaker/$MBUTIL_PKG ./
 mc cp nz/depends/tilemaker/$TILEMAKER_PKG ./
@@ -51,7 +51,7 @@ echo '[build osm.mbtiles file] [finshed]'
 # osm.mbtiles -> pbf
 echo '[export an mbtiles file] [begin] [directory: mbutil/work]'
 rm -rf $CUR_PWD/mbutil/work
-./mbutil/mb-util --image_format=png  $CUR_PWD/temp.osm.mbtiles $CUR_PWD/mbutil/work
+./mbutil/mb-util --image_format=pbf  $CUR_PWD/temp.osm.mbtiles $CUR_PWD/mbutil/work
 
 sh $CUR_PWD/tools/ungzip-pbf.sh $CUR_PWD/mbutil/work
 

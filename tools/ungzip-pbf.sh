@@ -7,7 +7,7 @@ function read_dir(){
                 read_dir $1"/"$file
             else
 		echo $1"/"$file
-		if [[ "$file" =~ .*png$ ]];then
+		if [[ "$file" =~ .*pbf$ ]];then
 			mv $1"/"$file $1"/"$file.gz
 			gzip -d $1"/"$file.gz
 		fi

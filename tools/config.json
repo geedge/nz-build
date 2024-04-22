@@ -38,7 +38,6 @@
     "maxzoom": 14,
     "basezoom": 14,
     "include_ids": false,
-    "bounding_box":[92.3032344909, 9.93295990645, 101.180005324, 28.335945136],
     "combine_below": 14,
     "name": "Tilemaker to OpenMapTiles schema",
     "version": "3.0",
@@ -49,7 +48,7 @@
       "scheme": "xyz",
       "type": "baselayer",
       "format": "png",
-      "tiles": ["https://example.com/liechtenstein/{z}/{x}/{y}.png"]
+      "tiles": ["https://example.com/liechtenstein/{z}/{x}/{y}.pbf"]
     }
   }
 }
