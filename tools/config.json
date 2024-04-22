@@ -38,6 +38,7 @@
     "maxzoom": 11,
     "basezoom": 11,
     "include_ids": false,
+    "bounding_box": [-179, -89, 179, 89],
     "combine_below": 14,
     "name": "Tilemaker to OpenMapTiles schema",
     "version": "3.0",
