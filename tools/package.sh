@@ -29,7 +29,7 @@ NZ_GUI_PKG="release/nz-gui/nz-gui-30506c29.zip"
 NZ_TALON_PKG="release/nz-talon/nz-talon-24.01.03.58a61ff4-Release.x86_64.rpm"
 
 # 依赖jdk 文件名
-JDK_FILENAME=openjdk-21_linux-x64_bin.tar.gz
+JDK_FILENAME=jdk-21-0-3_linux-x64_bin.tar.gz
 CHROME_FILENAME=chrome-117.0.5938.149-linux64.zip
 CHROMEDRIVER_FILENAME=chromedriver-117.0.5938.149-linux64.zip
 # 拉取依赖文件
