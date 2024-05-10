@@ -11,10 +11,10 @@ MBUTIL_PKG="mbutil-0.3.0.tar.gz"
 TILEMAKER_PKG="tilemaker-2.4.0.docker-image.tar.gz"
 
 # source filename
-SOURCE_OSM_PBF_FILE="myanmar-latest.osm.pbf"
+SOURCE_OSM_PBF_FILE="china-latest.osm.pbf"
 
 # output filename
-OUTPUT_FILE_NAME="myanmar-7-11-tiles.tar.gz"
+OUTPUT_FILE_NAME="china-7-14-tiles.tar.gz"
 
 mc cp nz/depends/tilemaker/$MBUTIL_PKG ./
 mc cp nz/depends/tilemaker/$TILEMAKER_PKG ./
@@ -32,7 +32,7 @@ tar -zxvf $MBUTIL_PKG
 echo '[decompression
  mbutil pkg] [finshed]'
 
-chmod 777 $CUR_PWD/myanmar-latest.osm.pbf
+chmod 777 $CUR_PWD/china-latest.osm.pbf
 
 ls -hl $CUR_PWD
 ls -hl $CUR_PWD/tools
