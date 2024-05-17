@@ -1,16 +1,16 @@
 #!/bin/bash
 
-WORK_DIR=/opt/nezha/node_exporter
+WORK_DIR=/opt/nezha/ipmi_exporter
 
 fn_init_service(){
-    cat > /usr/lib/systemd/system/nz-node-exporter.service <<"EOF"
+    cat > /usr/lib/systemd/system/nz-ipmi-exporter.service <<"EOF"
 [Unit]
-Description=nz-node-exporter
+Description=nz-ipmi-exporter
 After=network.target
 [Service]
-WorkingDirectory=/opt/nezha/node_exporter
-EnvironmentFile=-/opt/nezha/node_exporter/config.conf
-ExecStart=/opt/nezha/node_exporter/node_exporter $OPTION
+WorkingDirectory=/opt/nezha/ipmi_exporter
+EnvironmentFile=-/opt/nezha/ipmi_exporter/config.conf
+ExecStart=/opt/nezha/ipmi_exporter/ipmi_exporter $OPTION
 RestartSec=10s
 Restart=always
 LimitNOFILE=524288
@@ -20,21 +20,21 @@ EOF
 }
 
 fn_init_config(){
-    cat > /opt/nezha/node_exporter/config.conf <<EOF
-OPTION=" --web.listen-address='0.0.0.0:19100' --collector.textfile.directory='/opt/nezha/node_exporter/prom' --collector.os --collector.cpu.info --collector.meminfo --collector.diskstats --collector.filesystem --collector.netdev --collector.netdev.address-info --collector.systemd  --collector.systemd.unit-include='(aksusbd|hasplmd).service' "
+    cat > /opt/nezha/ipmi_exporter/config.conf <<EOF
+OPTION=" --web.listen-address='0.0.0.0:19290' --config.file='/opt/nezha/ipmi_exporter/ipmi_local.yml' "
 EOF
 }
 
 # 初始化 rsyslog & logrotate 配置
 fn_init_syslog_logrotate_config(){
-  cat > /etc/rsyslog.d/nz-node-exporter.conf << "EOF"
-if $programname == 'node_exporter' then {
-    /var/log/nezha/nz-node-exporter/nz-node-exporter.log
+  cat > /etc/rsyslog.d/nz-ipmi-exporter.conf << "EOF"
+if $programname == 'ipmi_exporter' then {
+    /var/log/nezha/nz-ipmi-exporter/nz-ipmi-exporter.log
     stop
 }
 EOF
-  cat > /etc/logrotate.d/nz-node-exporter << "EOF"
-/var/log/nezha/nz-node-exporter/*.log {
+  cat > /etc/logrotate.d/nz-ipmi-exporter << "EOF"
+/var/log/nezha/nz-ipmi-exporter/*.log {
     daily
     missingok
     maxsize 100M
@@ -64,8 +64,8 @@ compareMD5(){
 }
 
 # 还原配置文件
-# $1 需要还原的文件目录 /opt/nezha/node_exporter
-# $2 备份文件目录       /tmp/nezha/node_exporter
+# $1 需要还原的文件目录 /opt/nezha/ipmi_exporter
+# $2 备份文件目录       /tmp/nezha/ipmi_exporter
 restoreComponentConfig(){
   if [ ! -d $1 ] || [ ! -d $2 ];then
     echo "Directory does not exist"
@@ -86,11 +86,24 @@ if [ 1 -eq $1 ];then
   fn_init_service
   fn_init_syslog_logrotate_config
 
+  # 检查命令是否存在，以此判断是否存在 freeipmi 依赖
+  if ! command -v bmc-info &> /dev/null ||
+     ! command -v ipmimonitoring &> /dev/null ||
+     ! command -v ipmi-dcmi &> /dev/null ||
+     ! command -v ipmi-sel &> /dev/null; then
+
+    echo 'freeipmi not found, start install'
+    rpm -ivh /opt/nezha/ipmi_exporter/deps/freeipmi-1.5.7-3.el7.x86_64.rpm
+    echo 'freeipmi install completed'
+  else
+    echo 'freeipmi already exists'
+  fi
+
   systemctl daemon-reload
-  systemctl enable nz-node-exporter && systemctl restart nz-node-exporter
+  systemctl enable nz-ipmi-exporter && systemctl restart nz-ipmi-exporter
   systemctl enable crond && systemctl restart crond
   systemctl enable rsyslog && systemctl restart rsyslog
-  echo 'install nz-node-exporter success !'
+  echo 'install nz-ipmi-exporter success !'
 fi
 
 # update
@@ -99,18 +112,18 @@ if [ 2 -eq $1 ];then
   fn_init_service
   fn_init_syslog_logrotate_config
 
-  # restore nz-node-exporter config
-  NZ_NODE_EXPORTER_PATH=/opt/nezha/node_exporter
-  TMP_PATH=/tmp/nezha/node_exporter
+  # restore nz-ipmi-exporter config
+  NZ_IPMI_EXPORTER_PATH=/opt/nezha/ipmi_exporter
+  TMP_PATH=/tmp/nezha/ipmi_exporter
   echo 'move backup config file...'
   if [ -d $TMP_PATH ];then
-    restoreComponentConfig $NZ_NODE_EXPORTER_PATH $TMP_PATH
+    restoreComponentConfig $NZ_IPMI_EXPORTER_PATH $TMP_PATH
   fi
 
   # restart all components
   systemctl daemon-reload
-  systemctl enable nz-node-exporter && systemctl restart nz-node-exporter
+  systemctl enable nz-ipmi-exporter && systemctl restart nz-ipmi-exporter
   systemctl enable crond && systemctl restart crond
   systemctl enable rsyslog && systemctl restart rsyslog
-  echo 'update nz-node-exporter success !'
+  echo 'update nz-ipmi-exporter success !'
 fi

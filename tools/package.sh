@@ -2,7 +2,7 @@
 set -evx
 CUR_PWD=`pwd`
 
-PACKAGE_NAME=nz-node-exporter
+PACKAGE_NAME=nz-ipmi-exporter
 BRANCH_ARRAY=(${CI_COMMIT_REF_NAME//-/ })
 PACKAGE_VERSION=${BRANCH_ARRAY[1]}.$CI_COMMIT_SHORT_SHA
 ITERATION=Release
@@ -13,21 +13,28 @@ RPM_FULL_NAME=${PACKAGE_NAME}-${PACKAGE_VERSION}-${ITERATION}.x86_64.rpm
 mc alias set nz $MINIO_HOST $MINIO_USER $MINIO_PWD
 
 #依赖包版本
-NODE_EXPORTER_PKG=node_exporter-1.7.0.linux-amd64.tar.gz
+IPMI_EXPORTER_PKG=ipmi_exporter-1.8.0.linux-amd64.tar.gz
 
 # 拉取依赖文件
-mc cp nz/depends/exporter/$NODE_EXPORTER_PKG ./
+mc cp nz/depends/exporter/$IPMI_EXPORTER_PKG ./
+mc cp nz/depends/exporter/freeipmi-1.5.7-3.el7.x86_64.rpm ./
 
 # rpm 编译目录
 BUILD_PATH=$CUR_PWD/build
-RPM_NZ_NODE_EXPORTER_PATH=$BUILD_PATH/opt/nezha/node_exporter
+RPM_NZ_IPMI_EXPORTER_PATH=$BUILD_PATH/opt/nezha/ipmi_exporter
 
-mkdir -p $BUILD_PATH $RPM_NZ_NODE_EXPORTER_PATH $RPM_NZ_NODE_EXPORTER_PATH/prom
+mkdir -p $BUILD_PATH $RPM_NZ_IPMI_EXPORTER_PATH $RPM_NZ_IPMI_EXPORTER_PATH/deps
 
-echo 'packaging  begin ...'
+echo 'packaging begin ...'
 
 # 解压
-tar -xzf ./$NODE_EXPORTER_PKG --strip-components 1 -C $RPM_NZ_NODE_EXPORTER_PATH
+tar -xzf ./$IPMI_EXPORTER_PKG --strip-components 1 -C $RPM_NZ_IPMI_EXPORTER_PATH
+
+# 配置文件
+cp ./tools/ipmi_local.yml $RPM_NZ_IPMI_EXPORTER_PATH
+
+# 依赖资源
+cp freeipmi-1.5.7-3.el7.x86_64.rpm $RPM_NZ_IPMI_EXPORTER_PATH/deps
 
 fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATION} --rpm-os 'linux'  \
 	--pre-install ./tools/beforeinstall.sh  \
@@ -44,4 +51,4 @@ cd $CUR_PWD
 mc cp $BUILD_PATH/$RPM_FULL_NAME nz/release/$PACKAGE_NAME/$RPM_FULL_NAME
 mc cp $BUILD_PATH/$RPM_FULL_NAME.md5sum.txt nz/release/$PACKAGE_NAME/$RPM_FULL_NAME.md5sum.txt
 
-echo 'package  finished'
+echo 'package finished'

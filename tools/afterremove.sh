@@ -1,21 +1,21 @@
 #!/bin/bash
 
 # 安装目录
-NZ_NODE_EXPORTER_PATH=/opt/nezha/node_exporter
+NZ_IPMI_EXPORTER_PATH=/opt/nezha/ipmi_exporter
 
 if [ 0 -eq $1 ];then
 
-	echo 'start remove nz-node-exporter from disk...'
+	echo 'start remove nz-ipmi-exporter from disk...'
 
-	systemctl stop nz-node-exporter.service
+	systemctl stop nz-ipmi-exporter.service
 
-	rm -rf $NZ_NODE_EXPORTER_PATH
+	rm -rf $NZ_IPMI_EXPORTER_PATH
 
-	systemctl disable nz-node-exporter.service
+	systemctl disable nz-ipmi-exporter.service
 
-	rm -rf /usr/lib/systemd/system/nz-node-exporter.service
-	rm -rf /etc/rsyslog.d/nz-node-exporter.conf
-	rm -rf /etc/logrotate.d/nz-node-exporter
+	rm -rf /usr/lib/systemd/system/nz-ipmi-exporter.service
+	rm -rf /etc/rsyslog.d/nz-ipmi-exporter.conf
+	rm -rf /etc/logrotate.d/nz-ipmi-exporter
 
 	systemctl daemon-reload
 	systemctl restart rsyslog
