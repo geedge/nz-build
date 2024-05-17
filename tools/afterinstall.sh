@@ -93,7 +93,7 @@ if [ 1 -eq $1 ];then
      ! command -v ipmi-sel &> /dev/null; then
 
     echo 'freeipmi not found, start install'
-    flock /var/lib/rpm/.rpm.lock rpm -ivh /opt/nezha/ipmi_exporter/deps/freeipmi-1.5.7-3.el7.x86_64.rpm
+    yum install -y /opt/nezha/ipmi_exporter/deps/freeipmi-1.5.7-3.el7.x86_64.rpm
     echo 'freeipmi install completed'
   else
     echo 'freeipmi already exists'
