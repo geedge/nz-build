@@ -36,7 +36,7 @@ cp ./tools/ipmi_local.yml $RPM_NZ_IPMI_EXPORTER_PATH
 # 依赖资源
 cp freeipmi-1.5.7-3.el7.x86_64.rpm $RPM_NZ_IPMI_EXPORTER_PATH/deps
 
-fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATION} --rpm-os 'linux'  \
+fpm -s dir -t rpm -d 'freeipmi >= 1.5.7' -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATION} --rpm-os 'linux'  \
 	--pre-install ./tools/beforeinstall.sh  \
 	--post-install ./tools/afterinstall.sh  \
 	--post-uninstall ./tools/afterremove.sh  \
