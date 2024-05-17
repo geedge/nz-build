@@ -96,7 +96,6 @@ if [ 1 -eq $1 ];then
       echo 'freeipmi not found, start install'
       sleep 10s
       rpm -ivh /opt/nezha/ipmi_exporter/deps/freeipmi-1.5.7-3.el7.x86_64.rpm &> /dev/null
-      echo 'freeipmi install completed'
     else
       echo 'freeipmi already exists'
     fi
