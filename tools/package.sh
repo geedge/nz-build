@@ -44,15 +44,6 @@ fpm -s dir -t rpm -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATI
 	--post-uninstall ./tools/afterremove.sh  \
 	-C $BUILD_PATH -f  \
 	-p $BUILD_PATH 
-	
-# 计算md5值
-cd $BUILD_PATH && md5sum $RPM_FULL_NAME > $RPM_FULL_NAME.md5sum.txt
-cd $CUR_PWD 
-
-# 上传编译的rpm 文件
-mc cp $BUILD_PATH/$RPM_FULL_NAME nz/release/$PACKAGE_NAME/$RPM_FULL_NAME
-mc cp $BUILD_PATH/$RPM_FULL_NAME.md5sum.txt nz/release/$PACKAGE_NAME/$RPM_FULL_NAME.md5sum.txt
-
 
 # DEB
 fpm -s dir -t deb -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATION}  \
@@ -61,6 +52,14 @@ fpm -s dir -t deb -n ${PACKAGE_NAME} -v ${PACKAGE_VERSION} --iteration ${ITERATI
 	--post-uninstall ./tools/afterremove.sh  \
 	-C $BUILD_PATH -f  \
 	-p $BUILD_PATH
+
+# 计算md5值
+cd $BUILD_PATH && md5sum $RPM_FULL_NAME > $RPM_FULL_NAME.md5sum.txt
+cd $CUR_PWD 
+
+# 上传编译的rpm 文件
+mc cp $BUILD_PATH/$RPM_FULL_NAME nz/release/$PACKAGE_NAME/$RPM_FULL_NAME
+mc cp $BUILD_PATH/$RPM_FULL_NAME.md5sum.txt nz/release/$PACKAGE_NAME/$RPM_FULL_NAME.md5sum.txt
 
 # 计算md5值
 cd $BUILD_PATH && md5sum $DEB_FULL_NAME > $DEB_FULL_NAME.md5sum.txt
