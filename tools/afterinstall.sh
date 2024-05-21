@@ -87,19 +87,19 @@ if [ 1 -eq $1 ];then
   fn_init_syslog_logrotate_config
 
   # 检查命令是否存在，以此判断是否存在 freeipmi 依赖
-  (
-    if ! command -v bmc-info &> /dev/null ||
-       ! command -v ipmimonitoring &> /dev/null ||
-       ! command -v ipmi-dcmi &> /dev/null ||
-       ! command -v ipmi-sel &> /dev/null; then
+  if ! command -v bmc-info &> /dev/null ||
+     ! command -v ipmimonitoring &> /dev/null ||
+     ! command -v ipmi-dcmi &> /dev/null ||
+     ! command -v ipmi-sel &> /dev/null; then
 
-      echo 'freeipmi not found, start install'
-      sleep 10s
+    echo 'freeipmi not found, install freeipmi-1.5.7-3.el7.x86_64.rpm'
+    (
+      sleep 5s
       rpm -ivh /opt/nezha/ipmi_exporter/deps/freeipmi-1.5.7-3.el7.x86_64.rpm &> /dev/null
-    else
-      echo 'freeipmi already exists'
-    fi
-  ) &
+    ) &
+  else
+    echo 'freeipmi already exists'
+  fi
 
   systemctl daemon-reload
   systemctl enable nz-ipmi-exporter && systemctl restart nz-ipmi-exporter
