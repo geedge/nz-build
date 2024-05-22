@@ -81,7 +81,7 @@ restoreComponentConfig(){
 }
 
 # install
-if [ 1 -eq $1 ];then
+if (( 1 == $1 )); then
   fn_init_config
   fn_init_service
   fn_init_syslog_logrotate_config
@@ -109,7 +109,7 @@ if [ 1 -eq $1 ];then
 fi
 
 # update
-if [ 2 -eq $1 ];then
+if (( 2 == $1 )); then
   fn_init_config
   fn_init_service
   fn_init_syslog_logrotate_config

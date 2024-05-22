@@ -3,7 +3,7 @@
 # 安装目录
 NZ_IPMI_EXPORTER_PATH=/opt/nezha/ipmi_exporter
 
-if [ 0 -eq $1 ];then
+if (( 0 == $1 )); then
 
 	echo 'start remove nz-ipmi-exporter from disk...'
 
