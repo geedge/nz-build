@@ -1,10 +1,5 @@
 #!/bin/bash
 
-echo "afterinstall.sh begin"
-echo "P1:"$1
-echo "P2:"$2
-
-
 WORK_DIR=/opt/nezha/ipmi_exporter
 
 fn_init_service(){
@@ -86,7 +81,7 @@ restoreComponentConfig(){
 }
 
 # install
-if (( 1 == $1 )); then
+if [ "$1" = "configure" ] && [ -z "$2" ]; then
   fn_init_config
   fn_init_service
   fn_init_syslog_logrotate_config
@@ -114,7 +109,7 @@ if (( 1 == $1 )); then
 fi
 
 # update
-if (( 2 == $1 )); then
+if [ "$1" = "configure" ] && [ -n "$2" ]; then
   fn_init_config
   fn_init_service
   fn_init_syslog_logrotate_config
@@ -134,5 +129,3 @@ if (( 2 == $1 )); then
   systemctl enable rsyslog && systemctl restart rsyslog
   echo 'update nz-ipmi-exporter success !'
 fi
-
-echo "afterinstall.sh finshed"
