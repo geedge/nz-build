@@ -15,7 +15,7 @@ if [ -d $NZ_IPMI_EXPORTER_PATH ];then
 fi
 
 # 停止服务并卸载
-if [ 0 -lt $(dpkg -l | grep nz-ipmi-exporter | wc -l) ];then
+if [ "$1" = "upgrade" ] && [ -z "$2" ]; then
 	echo "stop nz-ipmi-exporter service"
 	systemctl stop nz-ipmi-exporter.service
 	echo 'clean before install...'
