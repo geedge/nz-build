@@ -24,6 +24,8 @@ build_rpm:
     - env | sort
     - chmod +x ./tools/package.sh
     - ./tools/package.sh
+    - chmod +x ./deb_tools/package.sh
+    - ./deb_tools/package.sh
   # 在哪个分支上可用
   only:
     - /^nz_ipmi_exporter-.*$/i
