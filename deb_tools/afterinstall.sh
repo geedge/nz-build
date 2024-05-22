@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo "afterinstall.sh begin"
+echo "P1:"$1
+echo "P2:"$2
+
+
 WORK_DIR=/opt/nezha/ipmi_exporter
 
 fn_init_service(){
@@ -129,3 +134,5 @@ if (( 2 == $1 )); then
   systemctl enable rsyslog && systemctl restart rsyslog
   echo 'update nz-ipmi-exporter success !'
 fi
+
+echo "afterinstall.sh finshed"

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+echo "beforeinstall.sh begin"
+echo "P1:"$1
+echo "P2:"$2
+
 # 安装目录
 NZ_IPMI_EXPORTER_PATH=/opt/nezha/ipmi_exporter
 # 临时目录
@@ -21,3 +26,5 @@ if [ 0 -lt $(dpkg -l | grep nz-ipmi-exporter | wc -l) ];then
 	echo 'clean before install...'
 	rm -rf $NZ_IPMI_EXPORTER_PATH
 fi
+
+echo "beforeinstall.sh finshed"

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "afterremove.sh begin"
+echo "P1:"$1
+echo "P2:"$2
+
 # 安装目录
 NZ_IPMI_EXPORTER_PATH=/opt/nezha/ipmi_exporter
 
@@ -22,3 +26,6 @@ if (( 0 == $1 )); then
 
 	echo 'uninstall success!'
 fi
+
+echo "afterremove.sh finshed"
+
