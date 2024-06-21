@@ -103,6 +103,7 @@ if [ 2 -eq $1 ];then
         if [[ -n $database_host ]] && [[ -n $database_port ]]; then
           database_url="${database_host}:${database_port}"
           sed -i '/^database\.\(host\|port\)=/d' "$web_config_file"
+          echo >> "$web_config_file"
           echo "database.url=$database_url" >> "$web_config_file"
 
           echo "nezha.properties add properties. key='database.url' value=$database_url"
