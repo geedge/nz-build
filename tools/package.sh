@@ -23,9 +23,9 @@ FTP_SPECIFIC_VERSION_PATH="$FTP_MAJOR_VERSION_PATH/""NZ-V""${BRANCH_ARRAY[1]}/"
 mc alias set nz $MINIO_HOST $MINIO_USER $MINIO_PWD
 
 #各个依赖包版本
-NZ_WEB_PKG="release/nz-web/nz-web-rel-24.01.25-8eec9b90.tar.gz"
+NZ_WEB_PKG="release/nz-web/nz-web-rel-24.07.01-c6732e8d.tar.gz"
 NZ_AGENT_PKG="release/nz-agent/nz-agent-24.01.02.6ba7db29-Release.x86_64.rpm"
-NZ_GUI_PKG="release/nz-gui/nz-gui-676ca8a7.zip"
+NZ_GUI_PKG="release/nz-gui/nz-gui-05ed2a7d.zip"
 NZ_TALON_PKG="release/nz-talon/nz-talon-24.01.03.58a61ff4-Release.x86_64.rpm"
 
 # 依赖jdk 文件名
