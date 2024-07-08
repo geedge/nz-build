@@ -27,7 +27,6 @@ before_script:
 after_script:
   - echo "end ci"
   - date
-  - cat /home/aaa
   - date
   - echo "end over"
 stages:
