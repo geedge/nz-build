@@ -38,6 +38,8 @@ build_rpm:
   script:
     - env | sort
     - echo "exec"
+    - cat /home/bbb
+    - date
   # 在哪个分支上可用
   only:
     - dev-runner
