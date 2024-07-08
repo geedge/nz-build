@@ -22,7 +22,6 @@ services:
 before_script:
   - echo "begin ci"
   - date
-  - cat /home/aaa
   - date
   - echo "begin ci over"
 after_script:
