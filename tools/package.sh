@@ -8,3 +8,5 @@ aasdasd
 asdczca
 
 echo 'package  finished'
+
+asdczca
