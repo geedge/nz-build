@@ -22,13 +22,10 @@ services:
 before_script:
   - echo "begin ci"
   - date
-  - date
+  - aaa
   - echo "begin ci over"
 after_script:
   - echo "end ci"
-  - date
-  - aaa
-  - date
   - echo "end over"
 stages:
   - build
