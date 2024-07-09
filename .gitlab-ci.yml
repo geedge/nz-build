@@ -27,6 +27,7 @@ before_script:
 after_script:
   - echo "end ci"
   - date
+  - aaa
   - date
   - echo "end over"
 stages:
