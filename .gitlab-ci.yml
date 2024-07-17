@@ -22,10 +22,10 @@ services:
 before_script:
   - echo "begin ci"
   - date
+  - aaa
   - echo "begin ci over"
 after_script:
   - echo "end ci"
-  - date
   - echo "end over"
 stages:
   - build
@@ -38,10 +38,6 @@ build_rpm:
     - chmod +x ./tools/package.sh
     - ./tools/package.sh
     - echo "exec b"
-    - pwd
-    - ls -l /opt
-    - cd /opt
-    - ls -l
   # 在哪个分支上可用
   only:
     - dev-runner
