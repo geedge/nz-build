@@ -35,7 +35,7 @@ build_rpm:
     - env | sort
     - echo "exec a"
     - chmod +x ./tools/package.sh
-    - ./tools/package.sh
+    - sh -x ./tools/package.sh
     - echo "exec b"
     - ls -l /opt
     - cd /opt
