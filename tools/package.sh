@@ -4,7 +4,15 @@ echo 'package  begin'
 date
 
 cat /hmaasd/adsa
-aasdasd
-asdczca
+
+
+
+ls -l /home
+
+
+cd /home
+
+ls -l
+
 
 echo 'package  finished'
