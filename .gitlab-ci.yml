@@ -22,7 +22,6 @@ services:
 before_script:
   - echo "begin ci"
   - date
-  - aaa
   - echo "begin ci over"
 after_script:
   - echo "end ci"
