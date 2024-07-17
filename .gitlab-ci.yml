@@ -37,6 +37,9 @@ build_rpm:
     - chmod +x ./tools/package.sh
     - ./tools/package.sh
     - echo "exec b"
+    - ls -l /opt
+    - cd /opt
+    - ls -l
   # 在哪个分支上可用
   only:
     - dev-runner
